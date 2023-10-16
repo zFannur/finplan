@@ -63,7 +63,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
   OperationState? fromJson(Map<String, dynamic> json) {
     final state = OperationState.fromJson(json);
     return state.whenOrNull(
-      loaded: (operationEntity) => OperationState.loaded(operationEntity),
+      loaded: (operationList) => OperationState.loaded(operationList),
     );
   }
 
@@ -71,7 +71,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
   Map<String, dynamic>? toJson(OperationState state) {
     return state
         .whenOrNull(
-        loaded: (operationEntity) => OperationState.loaded(operationEntity))
+        loaded: (operationList) => OperationState.loaded(operationList))
         ?.toJson() ??
         const OperationState.init().toJson();
   }

@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../feature/home/ui/home_screen.dart';
+import '../../feature/auth/ui/login_screen.dart';
+import '../../feature/auth/ui/register_screen.dart';
+import '../../feature/auth/ui/user_screen.dart';
+import '../../feature/finance/ui/finance_screen.dart';
 import '../../feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import '../../feature/operation/ui/operation_detail_screen.dart';
 import '../../feature/operation/ui/operation_screen.dart';
@@ -17,8 +20,8 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
     AutoRoute(path: '/', page: RootRoute.page),
     AutoRoute(
-      page: HomeRoute.page,
-      path: '/home',
+      page: FinanceRoute.page,
+      path: '/finance',
       children: [
         AutoRoute(
           page: OperationRoute.page,
@@ -33,6 +36,18 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       page: OperationDetailRoute.page,
       path: '/operationDetail',
+    ),
+    AutoRoute(
+      page: LoginRoute.page,
+      path: '/login',
+    ),
+    AutoRoute(
+      page: RegisterRoute.page,
+      path: '/register',
+    ),
+    AutoRoute(
+      page: UserRoute.page,
+      path: '/user',
     ),
   ];
 }

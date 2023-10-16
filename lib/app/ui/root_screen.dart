@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:finplan/app/router/app_router.dart';
+import 'package:finplan/app/ui/components/app_auth_icon.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -10,14 +11,41 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            context.pushRoute(HomeRoute());
-          },
-          child: Text('home'),
-        ),
+      appBar: AppBar(
+        title: const Text("Главное меню"),
+        actions: const [
+          AppAuthIcon(),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextButton(
+            onPressed: () {
+              context.pushRoute(const FinanceRoute());
+            },
+            child: Text(
+              'Финансы',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+            },
+            child: Text(
+              'Задачник',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+            },
+            child: Text(
+              'Привычки',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -28,7 +28,9 @@ class OperationPage extends StatelessWidget {
                         operation: operationList[index],
                         buttonIcon: Icons.edit,
                         onTap: (operationEntity) {
-                          context.read<OperationCubit>().editOperation(operationEntity);
+                          context
+                              .read<OperationCubit>()
+                              .editOperation(operationEntity);
                           context.popRoute();
                         },
                         title: 'Редактирование',
@@ -51,12 +53,15 @@ class OperationPage extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Text(operationList[index].date),
+                          child: Text(
+                            operationList[index].date,
+                            maxLines: 1,
+                          ),
                         ),
                         Expanded(
                           flex: 2,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 operationList[index].form,
@@ -74,7 +79,9 @@ class OperationPage extends StatelessWidget {
                           flex: 0,
                           child: IconButton(
                             onPressed: () {
-                              context.read<OperationCubit>().deleteOperation(operationList[index]);
+                              context
+                                  .read<OperationCubit>()
+                                  .deleteOperation(operationList[index]);
                             },
                             icon: const Icon(Icons.delete, color: Colors.red),
                           ),

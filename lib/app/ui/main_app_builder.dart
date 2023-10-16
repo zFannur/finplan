@@ -1,4 +1,6 @@
 import 'package:finplan/app/di/init_di.dart';
+import 'package:finplan/feature/auth/domain/auth_repository.dart';
+import 'package:finplan/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:finplan/feature/operation/domain/operation_repository.dart';
 import 'package:finplan/feature/operation/domain/state/operation_cubit.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +38,10 @@ class _GlobalProviders extends StatelessWidget {
             create: (context) => OperationCubit(
                   locator.get<OperationRepository>(),
                 )..getOperation()),
+        BlocProvider(
+            create: (context) => AuthCubit(
+                  locator.get<AuthRepository>(),
+                )),
       ],
       child: child,
     );

@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/router/app_router.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class FinanceScreen extends StatelessWidget {
+  const FinanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class HomeScreen extends StatelessWidget {
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
-          drawer: const Drawer(),
           appBar: AppBar(
             centerTitle: true,
             title: _title(),
