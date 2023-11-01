@@ -52,9 +52,9 @@ class RegisterScreen extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState?.validate() != true) return;
 
-                    if (controllerPassword.text != controllerPassword2.text) {
+                    if (controllerPassword.text != controllerPassword2.text || controllerPassword.text.length < 6) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('пароли не совпадают')));
+                          const SnackBar(content: Text('пароли должны совпадать и длина должна быть больше 6 ти')));
                     } else {
                       _onTapToSignUp(context.read<AuthCubit>());
                       context.back();

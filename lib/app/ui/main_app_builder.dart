@@ -1,11 +1,13 @@
 import 'package:finplan/app/di/init_di.dart';
+import 'package:finplan/app/domain/app_categories_repository.dart';
+import 'package:finplan/app/domain/state/categories/categories_cubit.dart';
 import 'package:finplan/feature/auth/domain/auth_repository.dart';
 import 'package:finplan/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:finplan/feature/operation/domain/operation_repository.dart';
-import 'package:finplan/feature/operation/domain/state/operation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../feature/operation/domain/operation_state/operation_cubit.dart';
 import '../domain/app_builder.dart';
 import '../router/app_router.dart';
 
@@ -42,6 +44,10 @@ class _GlobalProviders extends StatelessWidget {
             create: (context) => AuthCubit(
                   locator.get<AuthRepository>(),
                 )),
+        BlocProvider(
+            create: (context) => CategoriesCubit(
+              locator.get<AppCategoriesRepository>(),
+            )),
       ],
       child: child,
     );

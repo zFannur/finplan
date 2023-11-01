@@ -33,7 +33,7 @@ class RootScreen extends StatelessWidget {
             onPressed: () {
             },
             child: Text(
-              'Задачник',
+              'Тайм менеджмент',
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -41,7 +41,7 @@ class RootScreen extends StatelessWidget {
             onPressed: () {
             },
             child: Text(
-              'Привычки',
+              'Навыки и привычки',
               style: TextStyle(fontSize: 20),
             ),
           ),

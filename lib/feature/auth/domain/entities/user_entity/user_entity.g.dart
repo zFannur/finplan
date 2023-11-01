@@ -8,18 +8,26 @@ part of 'user_entity.dart';
 
 _$UserEntiryImpl _$$UserEntiryImplFromJson(Map<String, dynamic> json) =>
     _$UserEntiryImpl(
+      displayName: json['displayName'] as String,
       email: json['email'] as String,
-      username: json['username'] as String,
-      id: json['id'] as String,
-      accessToken: json['accessToken'] as String?,
-      refreshToken: json['refreshToken'] as String?,
+      emailVerified: json['emailVerified'] as bool,
+      isAnonymous: json['isAnonymous'] as bool,
+      phoneNumber: json['phoneNumber'] as String,
+      photoURL: json['photoURL'] as String,
+      refreshToken: json['refreshToken'] as String,
+      tenantId: json['tenantId'] as String,
+      uid: json['uid'] as String,
     );
 
 Map<String, dynamic> _$$UserEntiryImplToJson(_$UserEntiryImpl instance) =>
     <String, dynamic>{
+      'displayName': instance.displayName,
       'email': instance.email,
-      'username': instance.username,
-      'id': instance.id,
-      'accessToken': instance.accessToken,
+      'emailVerified': instance.emailVerified,
+      'isAnonymous': instance.isAnonymous,
+      'phoneNumber': instance.phoneNumber,
+      'photoURL': instance.photoURL,
       'refreshToken': instance.refreshToken,
+      'tenantId': instance.tenantId,
+      'uid': instance.uid,
     };

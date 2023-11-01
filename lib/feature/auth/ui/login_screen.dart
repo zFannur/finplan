@@ -44,7 +44,6 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState?.validate() == true) {
                       _onTapToSignIn(context.read<AuthCubit>());
-                      context.popRoute();
                     }
                   },
                   text: 'Войти',

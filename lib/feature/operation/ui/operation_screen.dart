@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/domain/state/categories/categories_cubit.dart';
 import 'package:finplan/app/ui/app_loader.dart';
-import 'package:finplan/feature/operation/domain/state/operation_cubit.dart';
+import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/router/app_router.dart';
+import '../domain/operation_state/operation_cubit.dart';
 
 @RoutePage()
 class OperationPage extends StatelessWidget {
@@ -12,8 +14,7 @@ class OperationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OperationCubit, OperationState>(
-      listener: (context, state) {},
+    return BlocBuilder<OperationCubit, OperationState>(
       builder: (context, state) {
         return state.when(
           init: () => const AppLoader(),
@@ -31,6 +32,11 @@ class OperationPage extends StatelessWidget {
                           context
                               .read<OperationCubit>()
                               .editOperation(operationEntity);
+
+                          context.read<CategoriesCubit>().add(
+                                form: operationEntity.form,
+                                note: operationEntity.note,
+                              );
                           context.popRoute();
                         },
                         title: 'Редактирование',
@@ -43,9 +49,9 @@ class OperationPage extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: operationList[index].type == "Расход"
-                          ? Colors.red.shade50
-                          : Colors.green.shade50,
+                      color: operationList[index].type == TypeOperation.expense
+                          ? Colors.red.shade100
+                          : Colors.green.shade100,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Row(

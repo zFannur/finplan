@@ -22,7 +22,7 @@ OperationEntity _$OperationEntityFromJson(Map<String, dynamic> json) {
 mixin _$OperationEntity {
   int get id => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  TypeOperation get type => throw _privateConstructorUsedError;
   String get form => throw _privateConstructorUsedError;
   int get sum => throw _privateConstructorUsedError;
   String get note => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $OperationEntityCopyWith<$Res> {
   $Res call(
       {int id,
       String date,
-      String type,
+      TypeOperation type,
       String form,
       int sum,
       String note,
@@ -85,7 +85,7 @@ class _$OperationEntityCopyWithImpl<$Res, $Val extends OperationEntity>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TypeOperation,
       form: null == form
           ? _value.form
           : form // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ abstract class _$$OperationEntityImplCopyWith<$Res>
   $Res call(
       {int id,
       String date,
-      String type,
+      TypeOperation type,
       String form,
       int sum,
       String note,
@@ -156,7 +156,7 @@ class __$$OperationEntityImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TypeOperation,
       form: null == form
           ? _value.form
           : form // ignore: cast_nullable_to_non_nullable
@@ -197,7 +197,7 @@ class _$OperationEntityImpl implements _OperationEntity {
   @override
   final String date;
   @override
-  final String type;
+  final TypeOperation type;
   @override
   final String form;
   @override
@@ -252,7 +252,7 @@ abstract class _OperationEntity implements OperationEntity {
   const factory _OperationEntity(
       {required final int id,
       required final String date,
-      required final String type,
+      required final TypeOperation type,
       required final String form,
       required final int sum,
       required final String note,
@@ -267,7 +267,7 @@ abstract class _OperationEntity implements OperationEntity {
   @override
   String get date;
   @override
-  String get type;
+  TypeOperation get type;
   @override
   String get form;
   @override

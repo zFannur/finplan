@@ -15,10 +15,22 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthScreen(),
+      );
+    },
     FinanceRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const FinanceScreen(),
+      );
+    },
+    FinanceStatisticRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FinanceStatisticScreen(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -62,12 +74,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RootScreen(),
       );
     },
-    StatisticRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const StatisticScreen(),
-      );
-    },
     UserRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -75,6 +81,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AuthScreen]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -87,6 +107,20 @@ class FinanceRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FinanceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FinanceStatisticScreen]
+class FinanceStatisticRoute extends PageRouteInfo<void> {
+  const FinanceStatisticRoute({List<PageRouteInfo>? children})
+      : super(
+          FinanceStatisticRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FinanceStatisticRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -225,20 +259,6 @@ class RootRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RootRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [StatisticScreen]
-class StatisticRoute extends PageRouteInfo<void> {
-  const StatisticRoute({List<PageRouteInfo>? children})
-      : super(
-          StatisticRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'StatisticRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

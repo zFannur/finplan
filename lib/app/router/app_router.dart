@@ -1,14 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../feature/auth/ui/auth_screen.dart';
 import '../../feature/auth/ui/login_screen.dart';
 import '../../feature/auth/ui/register_screen.dart';
 import '../../feature/auth/ui/user_screen.dart';
 import '../../feature/finance/ui/finance_screen.dart';
+import '../../feature/finance/ui/finance_statistic_screen.dart';
 import '../../feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import '../../feature/operation/ui/operation_detail_screen.dart';
 import '../../feature/operation/ui/operation_screen.dart';
-import '../../feature/statistic/ui/statistic_screen.dart';
 import '../ui/root_screen.dart';
 
 part 'app_router.gr.dart';
@@ -28,8 +29,8 @@ class AppRouter extends _$AppRouter {
           path: 'operation',
         ),
         AutoRoute(
-          page: StatisticRoute.page,
-          path: 'statistic',
+          page: FinanceStatisticRoute.page,
+          path: 'finance_statistic',
         ),
       ],
     ),
@@ -48,6 +49,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       page: UserRoute.page,
       path: '/user',
+    ),
+    AutoRoute(
+      page: AuthRoute.page,
+      path: '/auth',
     ),
   ];
 }

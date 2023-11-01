@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:finplan/feature/operation/domain/state/operation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/domain/state/categories/categories_cubit.dart';
 import '../../../app/router/app_router.dart';
+import '../../operation/domain/operation_state/operation_cubit.dart';
 
 @RoutePage()
 class FinanceScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class FinanceScreen extends StatelessWidget {
     return AutoTabsRouter(
       routes: const [
         OperationRoute(),
-        StatisticRoute(),
+        FinanceStatisticRoute(),
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -44,6 +45,10 @@ class FinanceScreen extends StatelessWidget {
                 buttonIcon: Icons.add,
                 onTap: (operationEntity) {
                   context.read<OperationCubit>().addOperation(operationEntity);
+                  context.read<CategoriesCubit>().add(
+                    form: operationEntity.form,
+                    note: operationEntity.note,
+                  );
                   context.popRoute();
                 },
                 title: 'Добавить',

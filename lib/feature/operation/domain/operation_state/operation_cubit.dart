@@ -16,7 +16,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
   void getOperation() async {
     emit(const OperationState.loading());
     try {
-      final operationList = operationRepository.getOperation();
+      final operationList = await operationRepository.getOperation();
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);
@@ -26,7 +26,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
   Future<void> addOperation(OperationEntity operationEntity) async {
     try {
       await operationRepository.addOperation(operationEntity);
-      final operationList = operationRepository.getOperation();
+      final operationList = await operationRepository.getOperation();
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);
@@ -36,7 +36,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
   Future<void> editOperation(OperationEntity operationEntity) async {
     try {
       await operationRepository.editOperation(operationEntity);
-      final operationList = operationRepository.getOperation();
+      final operationList = await operationRepository.getOperation();
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);
@@ -46,7 +46,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
   Future<void> deleteOperation(OperationEntity operationEntity) async {
     try {
       await operationRepository.deleteOperation(operationEntity);
-      final operationList = operationRepository.getOperation();
+      final operationList = await operationRepository.getOperation();
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);

@@ -64,13 +64,13 @@ class UserScreen extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      child: Text(userEntity?.email.split("").first ??
-                          "Отсутствует"),
+                      child: Text(
+                          userEntity?.email.split("").first ?? "Отсутствует"),
                     ),
                     const SizedBox(width: 16),
                     Column(
                       children: [
-                        Text(userEntity?.username ?? ""),
+                        Text(userEntity?.displayName ?? "Без имени"),
                         Text(userEntity?.email ?? ""),
                       ],
                     )
@@ -85,12 +85,13 @@ class UserScreen extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) => AppDialog(
-                            val1: "Почта",
-                            val2: "Почта",
+                            val1: "Новый Пароль",
+                            val2: "Повтор пороля",
                             onPressed: (v1, v2) {
-                              context
-                                  .read<AuthCubit>()
-                                  .passwordUpdate(email: v1);
+                              context.read<AuthCubit>().passwordUpdate(
+                                    newPassword: v1,
+                                    repPassword: v2,
+                                  );
                             },
                           ),
                         );

@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/domain/state/categories/categories_cubit.dart';
+import 'package:finplan/app/ui/app_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final String labelText;
-  final List<String> listCategories;
+  final String categoriesKey;
   final TextEditingController controller;
   final String? Function(String? value) validator;
 
@@ -12,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.labelText,
-    required this.listCategories,
+    required this.categoriesKey,
     required this.controller,
     required this.validator,
   });
@@ -39,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
               labelText: labelText,
             ),
             onTap: () {
+              context.read<CategoriesCubit>().getCategories(categoriesKey);
               _showBottomSheet(context);
             },
           ),
@@ -98,31 +102,40 @@ class CustomTextFormField extends StatelessWidget {
                   },
                 ),
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Wrap(
-                    children: List.generate(
-                      listCategories.length,
-                      (index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: TextButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue.shade50)),
-                            onPressed: () {
-                              controller.text = listCategories[index];
-                              context.popRoute();
+              BlocBuilder<CategoriesCubit, CategoriesState>(
+                builder: (context, state) {
+                  return state.when(
+                    loaded: (List<dynamic> list) => Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Wrap(
+                          children: List.generate(
+                            list.length,
+                            (index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.blue.shade50)),
+                                  onPressed: () {
+                                    controller.text = list[index];
+                                    context.popRoute();
+                                  },
+                                  child: Text(list[index]),
+                                ),
+                              );
                             },
-                            child: Text(listCategories[index]),
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                    loading: () => const AppLoader(),
+                    error: (error) => Text(error.toString()),
+                  );
+                },
               ),
             ],
           ),
@@ -195,12 +208,17 @@ class DataFieldWidget extends StatelessWidget {
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2000),
-      lastDate: DateTime(2030),
+      lastDate: DateTime(2037),
     );
+
     if (selected != null && selected != selectedDate) {
-      selectedDate = selected;
+      selectedDate = selected.copyWith(
+        hour: DateTime.now().hour,
+        minute: DateTime.now().minute,
+        second: DateTime.now().second,
+      );
     }
-    return selectedDate.copyWith(hour: 12, minute: 12, second: 12);
+    return selectedDate;
   }
 
   @override

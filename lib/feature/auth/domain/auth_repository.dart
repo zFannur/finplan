@@ -18,5 +18,5 @@ abstract class AuthRepository {
     String? username,
   });
 
-  Future<dynamic> passwordUpdate({required String email});
+  Future<dynamic> passwordUpdate({required String password});
 }

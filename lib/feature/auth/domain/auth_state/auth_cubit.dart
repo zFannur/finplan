@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -8,9 +9,7 @@ import '../auth_repository.dart';
 import '../entities/user_entity/user_entity.dart';
 
 part 'auth_state.dart';
-
 part 'auth_cubit.freezed.dart';
-
 part 'auth_cubit.g.dart';
 
 @Singleton()
@@ -18,6 +17,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
   AuthCubit(this.authRepository) : super(const AuthState.notAuthorized());
 
   final AuthRepository authRepository;
+  late final UserCredential userCredential;
 
   Future<void> signIn({
     required String email,
@@ -60,7 +60,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
         authorized: (userEntity) => AuthState.authorized(
           userEntity.copyWith(
             email: newUserEntity.email,
-            username: newUserEntity.username,
           ),
         ),
       ));
@@ -90,7 +89,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
           authorized: (userEntity) => AuthState.authorized(
             userEntity.copyWith(
               email: newUserEntity.email,
-              username: newUserEntity.username,
             ),
           ),
         ),
@@ -107,19 +105,23 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
-  Future<void> passwordUpdate({required String email}) async {
+  Future<void> passwordUpdate({
+    required String repPassword,
+    required String newPassword,
+  }) async {
     try {
       _updateUserState(const AsyncSnapshot.waiting());
 
-      if (email.contains('@') != true) {
-        throw ErrorEntity(message: "Введите корректную почту");
+      if (newPassword != repPassword ||
+          newPassword.length < 6) {
+        throw ErrorEntity(message: 'пароли должны совпадать и длина должна быть больше 6 ти');
+      } else {
+        await authRepository.passwordUpdate(password: newPassword);
       }
-
-      await authRepository.passwordUpdate(email: email);
 
       _updateUserState(const AsyncSnapshot.withData(
         ConnectionState.done,
-        'Письмо отправлено',
+        'Пароль обновлен',
       ));
     } catch (error) {
       _updateUserState(AsyncSnapshot.withError(

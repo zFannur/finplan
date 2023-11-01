@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:finplan/app/di/init_di.dart';
-import 'package:finplan/feature/operation/data/data_source/local_data_source.dart';
+import 'package:finplan/feature/operation/data/data_source/opeartion_local_data_source.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
-import 'package:finplan/feature/operation/domain/state/operation_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/const/app_local_data_keys.dart';
+import '../../../app/data/data_source/app_categories_local_data_source.dart';
 import 'components/custom_text_form_field.dart';
 
 enum OperationType {
@@ -37,8 +37,8 @@ class OperationDetailScreen extends StatefulWidget {
 class _OperationDetailScreenState extends State<OperationDetailScreen> {
   final formKey = GlobalKey<FormState>();
 
+  late TypeOperation type;
   final controllerDate = TextEditingController();
-  final controllerType = TextEditingController();
   final controllerForm = TextEditingController();
   final controllerSum = TextEditingController();
   final controllerNote = TextEditingController();
@@ -46,8 +46,8 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
   @override
   void initState() {
     controllerDate.text = widget.operation?.date ?? DateTime.now().toString();
+    type = widget.operation?.type ?? TypeOperation.expense;
     if (widget.operation != null) {
-      controllerType.text = widget.operation?.type ?? "";
       controllerForm.text = widget.operation?.form ?? "";
       controllerSum.text = widget.operation?.sum.toString() ?? "";
       controllerNote.text = widget.operation?.note ?? "";
@@ -57,8 +57,8 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
 
   @override
   void dispose() {
+    locator.get<AppCategoriesLocalDataSource>().close();
     controllerDate.dispose();
-    controllerType.dispose();
     controllerForm.dispose();
     controllerSum.dispose();
     controllerNote.dispose();
@@ -67,6 +67,7 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //final categoriesCubit = context.read<CategoriesCubit>();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -82,17 +83,51 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
                 controller: controllerDate,
                 validator: emptyValidator,
               ),
-              CustomTextFormField(
-                hintText: 'Тип',
-                labelText: 'Тип операции',
-                listCategories: listCategories(OperationType.type),
-                controller: controllerType,
-                validator: emptyValidator,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        type = TypeOperation.expense;
+                        setState(() {});
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: type == TypeOperation.expense
+                              ? Colors.red.shade300
+                              : Colors.grey,
+                        ),
+                        child: const Text("Расход"),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        type = TypeOperation.income;
+                        setState(() {});
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: type == TypeOperation.income
+                              ? Colors.green.shade300
+                              : Colors.grey,
+                        ),
+                        child: const Text("Доход"),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               CustomTextFormField(
                 hintText: 'Направление',
                 labelText: 'Направление операции',
-                listCategories: listCategories(OperationType.form),
+                categoriesKey: LocalDataConst.formCategoryKey,
                 controller: controllerForm,
                 validator: emptyValidator,
               ),
@@ -105,7 +140,7 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
               CustomTextFormField(
                 hintText: 'Дополнительно',
                 labelText: 'Дополнительно об операции',
-                listCategories: listCategories(OperationType.note),
+                categoriesKey: LocalDataConst.noteCategoryKey,
                 controller: controllerNote,
                 validator: emptyValidator,
               ),
@@ -117,9 +152,10 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
         onPressed: () {
           if (formKey.currentState?.validate() == true) {
             widget.onTap(OperationEntity(
-              id: widget.operation?.id ?? locator.get<LocalDataSource>().getNewId(),
+              id: widget.operation?.id ??
+                  locator.get<OperationLocalDataSource>().getNewId(),
               date: controllerDate.text,
-              type: controllerType.text,
+              type: type,
               form: controllerForm.text,
               sum: int.parse(controllerSum.text),
               note: controllerNote.text,
@@ -136,48 +172,5 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
       return "обязательное поле";
     }
     return null;
-  }
-
-  List<String> listCategories(OperationType operationType) {
-    List<OperationEntity> operationList = context
-            .read<OperationCubit>()
-            .state
-            .whenOrNull(loaded: (operationEntity) => operationEntity) ??
-        [];
-    List<String> categories = [];
-
-    switch (operationType) {
-      case OperationType.date:
-        break;
-      case OperationType.type:
-        var uniques = <String, bool>{};
-        for (var s in operationList) {
-          uniques[s.type] = true;
-        }
-        for (var key in uniques.keys) {
-          categories.add(key);
-        }
-        break;
-      case OperationType.form:
-        var uniques = <String, bool>{};
-        for (var s in operationList) {
-          uniques[s.form] = true;
-        }
-        for (var key in uniques.keys) {
-          categories.add(key);
-        }
-        break;
-      case OperationType.note:
-        var uniques = <String, bool>{};
-        for (var s in operationList) {
-          uniques[s.note] = true;
-        }
-        for (var key in uniques.keys) {
-          categories.add(key);
-        }
-        break;
-    }
-
-    return categories;
   }
 }

@@ -6,7 +6,7 @@ class ConvertOperation {
     final operationModel = OperationHive(
       id: operation.id,
       date: operation.date,
-      type: operation.type,
+      type: operation.type.toHive(),
       form: operation.form,
       sum: operation.sum,
       note: operation.note,
@@ -22,7 +22,7 @@ class ConvertOperation {
       final operation = OperationEntity(
         id: operationModelHive[i].id,
         date: operationModelHive[i].date,
-        type: operationModelHive[i].type,
+        type: operationModelHive[i].type.toType(),
         form: operationModelHive[i].form,
         sum: operationModelHive[i].sum,
         note: operationModelHive[i].note,
@@ -31,5 +31,25 @@ class ConvertOperation {
     }
 
     return result;
+  }
+}
+
+extension on String {
+  TypeOperation toType() {
+    if (this == 'expense') {
+      return TypeOperation.expense;
+    } else {
+      return TypeOperation.income;
+    }
+  }
+}
+
+extension on TypeOperation {
+  String toHive() {
+    if (this == TypeOperation.expense) {
+      return 'expense';
+    } else {
+      return 'income';
+    }
   }
 }

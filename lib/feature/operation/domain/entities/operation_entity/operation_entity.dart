@@ -9,7 +9,7 @@ class OperationEntity with _$OperationEntity {
   const factory OperationEntity({
     required int id,
     required String date,
-    required String type,
+    required TypeOperation type,
     required String form,
     required int sum,
     required String note,
@@ -22,3 +22,5 @@ class OperationEntity with _$OperationEntity {
   factory OperationEntity.fromJson(Map<String, dynamic> json) =>
       _$OperationEntityFromJson(json);
 }
+
+enum TypeOperation {expense, income}

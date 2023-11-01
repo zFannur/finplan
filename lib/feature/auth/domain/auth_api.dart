@@ -18,5 +18,5 @@ abstract class AuthApi {
     String? username,
   });
 
-  Future<dynamic> passwordUpdate({required String email});
+  Future<dynamic> passwordUpdate({required String password});
 }

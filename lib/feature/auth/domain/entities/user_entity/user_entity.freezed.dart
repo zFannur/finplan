@@ -20,11 +20,15 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserEntity {
+  String get displayName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get username => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
-  String? get accessToken => throw _privateConstructorUsedError;
-  String? get refreshToken => throw _privateConstructorUsedError;
+  bool get emailVerified => throw _privateConstructorUsedError;
+  bool get isAnonymous => throw _privateConstructorUsedError;
+  String get phoneNumber => throw _privateConstructorUsedError;
+  String get photoURL => throw _privateConstructorUsedError;
+  String get refreshToken => throw _privateConstructorUsedError;
+  String get tenantId => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, includeFromJson: false)
   AsyncSnapshot<dynamic>? get userState => throw _privateConstructorUsedError;
 
@@ -41,11 +45,15 @@ abstract class $UserEntityCopyWith<$Res> {
       _$UserEntityCopyWithImpl<$Res, UserEntity>;
   @useResult
   $Res call(
-      {String email,
-      String username,
-      String id,
-      String? accessToken,
-      String? refreshToken,
+      {String displayName,
+      String email,
+      bool emailVerified,
+      bool isAnonymous,
+      String phoneNumber,
+      String photoURL,
+      String refreshToken,
+      String tenantId,
+      String uid,
       @JsonKey(includeToJson: false, includeFromJson: false)
       AsyncSnapshot<dynamic>? userState});
 }
@@ -63,34 +71,54 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? displayName = null,
     Object? email = null,
-    Object? username = null,
-    Object? id = null,
-    Object? accessToken = freezed,
-    Object? refreshToken = freezed,
+    Object? emailVerified = null,
+    Object? isAnonymous = null,
+    Object? phoneNumber = null,
+    Object? photoURL = null,
+    Object? refreshToken = null,
+    Object? tenantId = null,
+    Object? uid = null,
     Object? userState = freezed,
   }) {
     return _then(_value.copyWith(
+      displayName: null == displayName
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      emailVerified: null == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAnonymous: null == isAnonymous
+          ? _value.isAnonymous
+          : isAnonymous // ignore: cast_nullable_to_non_nullable
+              as bool,
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      photoURL: null == photoURL
+          ? _value.photoURL
+          : photoURL // ignore: cast_nullable_to_non_nullable
               as String,
-      accessToken: freezed == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshToken: freezed == refreshToken
+      refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      tenantId: null == tenantId
+          ? _value.tenantId
+          : tenantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
       userState: freezed == userState
           ? _value.userState
           : userState // ignore: cast_nullable_to_non_nullable
@@ -108,11 +136,15 @@ abstract class _$$UserEntiryImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String email,
-      String username,
-      String id,
-      String? accessToken,
-      String? refreshToken,
+      {String displayName,
+      String email,
+      bool emailVerified,
+      bool isAnonymous,
+      String phoneNumber,
+      String photoURL,
+      String refreshToken,
+      String tenantId,
+      String uid,
       @JsonKey(includeToJson: false, includeFromJson: false)
       AsyncSnapshot<dynamic>? userState});
 }
@@ -128,34 +160,54 @@ class __$$UserEntiryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? displayName = null,
     Object? email = null,
-    Object? username = null,
-    Object? id = null,
-    Object? accessToken = freezed,
-    Object? refreshToken = freezed,
+    Object? emailVerified = null,
+    Object? isAnonymous = null,
+    Object? phoneNumber = null,
+    Object? photoURL = null,
+    Object? refreshToken = null,
+    Object? tenantId = null,
+    Object? uid = null,
     Object? userState = freezed,
   }) {
     return _then(_$UserEntiryImpl(
+      displayName: null == displayName
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      emailVerified: null == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAnonymous: null == isAnonymous
+          ? _value.isAnonymous
+          : isAnonymous // ignore: cast_nullable_to_non_nullable
+              as bool,
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      photoURL: null == photoURL
+          ? _value.photoURL
+          : photoURL // ignore: cast_nullable_to_non_nullable
               as String,
-      accessToken: freezed == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshToken: freezed == refreshToken
+      refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      tenantId: null == tenantId
+          ? _value.tenantId
+          : tenantId // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
       userState: freezed == userState
           ? _value.userState
           : userState // ignore: cast_nullable_to_non_nullable
@@ -168,33 +220,45 @@ class __$$UserEntiryImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserEntiryImpl implements _UserEntiry {
   const _$UserEntiryImpl(
-      {required this.email,
-      required this.username,
-      required this.id,
-      this.accessToken,
-      this.refreshToken,
+      {required this.displayName,
+      required this.email,
+      required this.emailVerified,
+      required this.isAnonymous,
+      required this.phoneNumber,
+      required this.photoURL,
+      required this.refreshToken,
+      required this.tenantId,
+      required this.uid,
       @JsonKey(includeToJson: false, includeFromJson: false) this.userState});
 
   factory _$UserEntiryImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserEntiryImplFromJson(json);
 
   @override
+  final String displayName;
+  @override
   final String email;
   @override
-  final String username;
+  final bool emailVerified;
   @override
-  final String id;
+  final bool isAnonymous;
   @override
-  final String? accessToken;
+  final String phoneNumber;
   @override
-  final String? refreshToken;
+  final String photoURL;
+  @override
+  final String refreshToken;
+  @override
+  final String tenantId;
+  @override
+  final String uid;
   @override
   @JsonKey(includeToJson: false, includeFromJson: false)
   final AsyncSnapshot<dynamic>? userState;
 
   @override
   String toString() {
-    return 'UserEntity(email: $email, username: $username, id: $id, accessToken: $accessToken, refreshToken: $refreshToken, userState: $userState)';
+    return 'UserEntity(displayName: $displayName, email: $email, emailVerified: $emailVerified, isAnonymous: $isAnonymous, phoneNumber: $phoneNumber, photoURL: $photoURL, refreshToken: $refreshToken, tenantId: $tenantId, uid: $uid, userState: $userState)';
   }
 
   @override
@@ -202,14 +266,22 @@ class _$UserEntiryImpl implements _UserEntiry {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserEntiryImpl &&
+            (identical(other.displayName, displayName) ||
+                other.displayName == displayName) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.accessToken, accessToken) ||
-                other.accessToken == accessToken) &&
+            (identical(other.emailVerified, emailVerified) ||
+                other.emailVerified == emailVerified) &&
+            (identical(other.isAnonymous, isAnonymous) ||
+                other.isAnonymous == isAnonymous) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.photoURL, photoURL) ||
+                other.photoURL == photoURL) &&
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken) &&
+            (identical(other.tenantId, tenantId) ||
+                other.tenantId == tenantId) &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.userState, userState) ||
                 other.userState == userState));
   }
@@ -217,7 +289,17 @@ class _$UserEntiryImpl implements _UserEntiry {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, email, username, id, accessToken, refreshToken, userState);
+      runtimeType,
+      displayName,
+      email,
+      emailVerified,
+      isAnonymous,
+      phoneNumber,
+      photoURL,
+      refreshToken,
+      tenantId,
+      uid,
+      userState);
 
   @JsonKey(ignore: true)
   @override
@@ -235,11 +317,15 @@ class _$UserEntiryImpl implements _UserEntiry {
 
 abstract class _UserEntiry implements UserEntity {
   const factory _UserEntiry(
-      {required final String email,
-      required final String username,
-      required final String id,
-      final String? accessToken,
-      final String? refreshToken,
+      {required final String displayName,
+      required final String email,
+      required final bool emailVerified,
+      required final bool isAnonymous,
+      required final String phoneNumber,
+      required final String photoURL,
+      required final String refreshToken,
+      required final String tenantId,
+      required final String uid,
       @JsonKey(includeToJson: false, includeFromJson: false)
       final AsyncSnapshot<dynamic>? userState}) = _$UserEntiryImpl;
 
@@ -247,15 +333,23 @@ abstract class _UserEntiry implements UserEntity {
       _$UserEntiryImpl.fromJson;
 
   @override
+  String get displayName;
+  @override
   String get email;
   @override
-  String get username;
+  bool get emailVerified;
   @override
-  String get id;
+  bool get isAnonymous;
   @override
-  String? get accessToken;
+  String get phoneNumber;
   @override
-  String? get refreshToken;
+  String get photoURL;
+  @override
+  String get refreshToken;
+  @override
+  String get tenantId;
+  @override
+  String get uid;
   @override
   @JsonKey(includeToJson: false, includeFromJson: false)
   AsyncSnapshot<dynamic>? get userState;
