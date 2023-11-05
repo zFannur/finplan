@@ -28,15 +28,15 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
   }
 
   Future<void> add({
-    String? form,
-    String? note,
+    String? category,
+    String? underCategory,
   }) async {
     try {
-      if (form != null) {
-        await repository.add(form, LocalDataConst.formCategoryKey);
+      if (category != null) {
+        await repository.add(category, LocalDataConst.categoryKey);
       }
-      if (note != null) {
-        await repository.add(note, LocalDataConst.noteCategoryKey);
+      if (underCategory != null) {
+        await repository.add(underCategory, LocalDataConst.underCategoryKey);
       }
     } catch (error, st) {
       addError(error, st);
@@ -44,15 +44,15 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
   }
 
   Future<void> edit({
-    String? form,
-    String? note,
+    String? category,
+    String? underCategory,
   }) async {
     try {
-      if (form != null) {
-        await repository.edit(form, LocalDataConst.formCategoryKey);
+      if (category != null) {
+        await repository.edit(category, LocalDataConst.categoryKey);
       }
-      if (note != null) {
-        await repository.edit(note, LocalDataConst.noteCategoryKey);
+      if (underCategory != null) {
+        await repository.edit(underCategory, LocalDataConst.underCategoryKey);
       }
     } catch (error, st) {
       addError(error, st);
@@ -60,15 +60,15 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
   }
 
   Future<void> delete(
-    String? form,
-    String? note,
+    String? category,
+    String? underCategory,
   ) async {
     try {
-      if (form != null) {
-        await repository.delete(form, LocalDataConst.formCategoryKey);
+      if (category != null) {
+        await repository.delete(category, LocalDataConst.categoryKey);
       }
-      if (note != null) {
-        await repository.delete(note, LocalDataConst.noteCategoryKey);
+      if (underCategory != null) {
+        await repository.delete(underCategory, LocalDataConst.underCategoryKey);
       }
     } catch (error, st) {
       addError(error, st);

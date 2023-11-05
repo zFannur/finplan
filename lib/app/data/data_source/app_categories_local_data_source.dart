@@ -56,8 +56,8 @@ class AppCategoriesLocalDataSourceImpl implements AppCategoriesLocalDataSource {
 
   @override
   Future<void> close() async {
-    final noteBox = getDataSource(LocalDataConst.noteCategoryKey).getBox();
-    final formBox = getDataSource(LocalDataConst.formCategoryKey).getBox();
+    final noteBox = getDataSource(LocalDataConst.underCategoryKey).getBox();
+    final formBox = getDataSource(LocalDataConst.categoryKey).getBox();
 
     if (noteBox != null) {
       await noteBox.compact();

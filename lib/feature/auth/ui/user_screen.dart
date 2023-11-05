@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/domain/error_entity/error_entity.dart';
-import '../../../app/ui/app_loader.dart';
+import '../../../app/ui/components/app_loader.dart';
 import '../../../app/ui/components/app_dialog.dart';
 import '../../../app/ui/components/app_snack_bar.dart';
 import '../domain/auth_state/auth_cubit.dart';

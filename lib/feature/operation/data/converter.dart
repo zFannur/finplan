@@ -7,8 +7,9 @@ class ConvertOperation {
       id: operation.id,
       date: operation.date,
       type: operation.type.toHive(),
-      form: operation.form,
+      category: operation.category,
       sum: operation.sum,
+      underCategory: operation.underCategory,
       note: operation.note,
     );
     return operationModel;
@@ -23,8 +24,9 @@ class ConvertOperation {
         id: operationModelHive[i].id,
         date: operationModelHive[i].date,
         type: operationModelHive[i].type.toType(),
-        form: operationModelHive[i].form,
+        category: operationModelHive[i].category,
         sum: operationModelHive[i].sum,
+        underCategory: operationModelHive[i].underCategory,
         note: operationModelHive[i].note,
       );
       result.add(operation);

@@ -1,5 +1,6 @@
 class LocalDataConst {
   static const operationKey = "operations";
-  static const formCategoryKey = "formCategory";
-  static const noteCategoryKey = "noteCategory";
+  static const categoryKey = "category";
+  static const underCategoryKey = "underCategory";
+  static const noteKey = "note";
 }

@@ -1,22 +1,25 @@
+import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:injectable/injectable.dart';
 
-import '../entities/operation_entity/operation_entity.dart';
-import '../operation_repository.dart';
+import '../../../domain/entities/operation_entity/operation_entity.dart';
+
 
 part 'operation_state.dart';
 part 'operation_cubit.freezed.dart';
 part 'operation_cubit.g.dart';
 
+@Singleton()
 class OperationCubit extends HydratedCubit<OperationState> {
-  final OperationRepository operationRepository;
+  final OperationUseCase operationUseCase;
   
-  OperationCubit(this.operationRepository) : super(const OperationState.init());
+  OperationCubit(this.operationUseCase) : super(const OperationState.init());
 
   void getOperation() async {
     emit(const OperationState.loading());
     try {
-      final operationList = await operationRepository.getOperation();
+      final operationList = await operationUseCase.getOperation();
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);
@@ -25,8 +28,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
 
   Future<void> addOperation(OperationEntity operationEntity) async {
     try {
-      await operationRepository.addOperation(operationEntity);
-      final operationList = await operationRepository.getOperation();
+      final operationList = await operationUseCase.addOperation(operationEntity);
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);
@@ -35,8 +37,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
 
   Future<void> editOperation(OperationEntity operationEntity) async {
     try {
-      await operationRepository.editOperation(operationEntity);
-      final operationList = await operationRepository.getOperation();
+      final operationList = await operationUseCase.editOperation(operationEntity);
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);
@@ -45,8 +46,7 @@ class OperationCubit extends HydratedCubit<OperationState> {
 
   Future<void> deleteOperation(OperationEntity operationEntity) async {
     try {
-      await operationRepository.deleteOperation(operationEntity);
-      final operationList = await operationRepository.getOperation();
+      final operationList = await operationUseCase.deleteOperation(operationEntity);
       emit(OperationState.loaded(operationList));
     } catch (error, st) {
       addError(error, st);

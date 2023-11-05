@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/router/app_router.dart';
-import '../../../app/ui/components/app_text_button.dart';
+import '../../../app/ui/components/app_button.dart';
 import '../../../app/ui/components/app_text_field.dart';
 import '../domain/auth_state/auth_cubit.dart';
 
@@ -40,21 +41,27 @@ class LoginScreen extends StatelessWidget {
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
-                AppTextButton(
+                AppButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() == true) {
                       _onTapToSignIn(context.read<AuthCubit>());
                     }
                   },
-                  text: 'Войти',
+                  child: const Text(
+                    'Войти',
+                    style: AppTextStyle.bold24,
+                  ),
                 ),
                 const SizedBox(height: 16),
-                AppTextButton(
+                AppButton(
                   backgroundColor: Colors.grey,
                   onPressed: () {
                     context.pushRoute(RegisterRoute());
                   },
-                  text: 'Регистрация',
+                  child: const Text(
+                    'Регистрация',
+                    style: AppTextStyle.bold24,
+                  ),
                 ),
               ],
             ),

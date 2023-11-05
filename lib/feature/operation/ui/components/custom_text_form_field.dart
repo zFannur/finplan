@@ -1,6 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:finplan/app/domain/state/categories/categories_cubit.dart';
-import 'package:finplan/app/ui/app_loader.dart';
+import 'package:finplan/app/ui/components/app_button.dart';
+import 'package:finplan/app/ui/components/app_loader.dart';
+import 'package:finplan/app/ui/components/app_text_field.dart';
+import 'package:finplan/app/ui/theme/app_colors.dart';
+import 'package:finplan/app/ui/theme/app_text_style.dart';
+import 'package:finplan/app/ui/theme/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +14,7 @@ class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final String categoriesKey;
   final TextEditingController controller;
-  final String? Function(String? value) validator;
+  final String? Function(String? value)? validator;
 
   const CustomTextFormField({
     super.key,
@@ -17,34 +22,31 @@ class CustomTextFormField extends StatelessWidget {
     required this.labelText,
     required this.categoriesKey,
     required this.controller,
-    required this.validator,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: AppPadding.v10h40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             hintText,
-            style: const TextStyle(fontSize: 20),
+            style: AppTextStyle.bold24,
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            controller: controller,
-            validator: validator,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+          Padding(
+            padding: AppPadding.top8,
+            child: AppTextField(
+              controller: controller,
+              validator: validator,
               labelText: labelText,
+              onTap: () {
+                context.read<CategoriesCubit>().getCategories(categoriesKey);
+                _showBottomSheet(context);
+              },
             ),
-            onTap: () {
-              context.read<CategoriesCubit>().getCategories(categoriesKey);
-              _showBottomSheet(context);
-            },
           ),
         ],
       ),
@@ -63,40 +65,40 @@ class CustomTextFormField extends StatelessWidget {
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-            color: Colors.white,
+            color: AppColors.black,
           ),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Назад'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  AppButton(
+                    onPressed: () {
+                      context.popRoute();
+                    },
+                    child: const Text(
+                      'Назад',
+                      style: AppTextStyle.bold14,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (controller.text.isNotEmpty) {
-                          context.popRoute();
-                        }
-                      },
-                      child: const Text('Добавить'),
+                  ),
+                  AppButton(
+                    onPressed: () {
+                      if (controller.text.isNotEmpty) {
+                        context.popRoute();
+                      }
+                    },
+                    child: const Text(
+                      'Добавить',
+                      style: AppTextStyle.bold14,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TextField(
+                padding: AppPadding.v10h20,
+                child: AppTextField(
                   controller: controller,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: labelText,
-                  ),
+                  labelText: labelText,
                   onTap: () {
                     controller.text = '';
                   },
@@ -115,16 +117,16 @@ class CustomTextFormField extends StatelessWidget {
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 5),
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.blue.shade50)),
+                                child: AppButton(
+                                  isFixedSize: false,
                                   onPressed: () {
                                     controller.text = list[index];
                                     context.popRoute();
                                   },
-                                  child: Text(list[index]),
+                                  child: Text(
+                                    list[index],
+                                    style: AppTextStyle.medium14,
+                                  ),
                                 ),
                               );
                             },
@@ -133,7 +135,10 @@ class CustomTextFormField extends StatelessWidget {
                       ),
                     ),
                     loading: () => const AppLoader(),
-                    error: (error) => Text(error.toString()),
+                    error: (error) => Text(
+                      error.toString(),
+                      style: AppTextStyle.mediumRed20,
+                    ),
                   );
                 },
               ),
@@ -162,23 +167,20 @@ class SumFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: AppPadding.v10h40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             hintText,
-            style: const TextStyle(fontSize: 20),
+            style: AppTextStyle.bold24,
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            keyboardType: TextInputType.number,
-            controller: controller,
-            validator: validator,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+          Padding(
+            padding: AppPadding.top8,
+            child: AppTextField(
+              keyboardType: TextInputType.number,
+              controller: controller,
+              validator: validator,
               labelText: labelText,
             ),
           ),
@@ -224,29 +226,26 @@ class DataFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: AppPadding.v10h40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             hintText,
-            style: const TextStyle(fontSize: 20),
+            style: AppTextStyle.bold24,
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            keyboardType: TextInputType.number,
-            controller: controller,
-            validator: validator,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+          Padding(
+            padding: AppPadding.top8,
+            child: AppTextField(
+              keyboardType: TextInputType.number,
+              controller: controller,
+              validator: validator,
               labelText: labelText,
+              onTap: () async {
+                DateTime date = await selectDate(context);
+                controller.text = date.toString();
+              },
             ),
-            onTap: () async {
-              DateTime date = await selectDate(context);
-              controller.text = date.toString();
-            },
           ),
         ],
       ),

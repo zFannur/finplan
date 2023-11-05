@@ -2,8 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../app/ui/components/app_text_button.dart';
+import '../../../app/ui/components/app_button.dart';
 import '../../../app/ui/components/app_text_field.dart';
+import '../../../app/ui/theme/app_text_style.dart';
 import '../domain/auth_state/auth_cubit.dart';
 
 @RoutePage()
@@ -47,20 +48,25 @@ class RegisterScreen extends StatelessWidget {
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
-                AppTextButton(
+                AppButton(
                   backgroundColor: Colors.blueAccent,
                   onPressed: () {
                     if (formKey.currentState?.validate() != true) return;
 
-                    if (controllerPassword.text != controllerPassword2.text || controllerPassword.text.length < 6) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('пароли должны совпадать и длина должна быть больше 6 ти')));
+                    if (controllerPassword.text != controllerPassword2.text ||
+                        controllerPassword.text.length < 6) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                              'пароли должны совпадать и длина должна быть больше 6 ти')));
                     } else {
                       _onTapToSignUp(context.read<AuthCubit>());
                       context.back();
                     }
                   },
-                  text: 'Регистрация',
+                  child: const Text(
+                    'Регистрация',
+                    style: AppTextStyle.bold24,
+                  ),
                 ),
               ],
             ),

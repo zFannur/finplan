@@ -10,8 +10,9 @@ class OperationEntity with _$OperationEntity {
     required int id,
     required String date,
     required TypeOperation type,
-    required String form,
+    required String category,
     required int sum,
+    required String underCategory,
     required String note,
     @JsonKey(
       includeToJson: false,

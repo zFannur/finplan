@@ -3,7 +3,7 @@ import 'package:finplan/feature/auth/ui/components/auth_builder.dart';
 import 'package:finplan/feature/auth/ui/user_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../app/ui/app_loader.dart';
+import '../../../app/ui/components/app_loader.dart';
 import 'login_screen.dart';
 
 @RoutePage()

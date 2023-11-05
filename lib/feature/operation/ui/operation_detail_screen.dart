@@ -1,11 +1,14 @@
 import 'package:auto_route/annotations.dart';
 import 'package:finplan/app/di/init_di.dart';
-import 'package:finplan/feature/operation/data/data_source/opeartion_local_data_source.dart';
+import 'package:finplan/app/ui/components/app_bar.dart';
+import 'package:finplan/app/ui/theme/app_colors.dart';
+import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../../app/const/app_local_data_keys.dart';
 import '../../../app/data/data_source/app_categories_local_data_source.dart';
+import '../data/data_source/opeartion_local_data_source.dart';
 import 'components/custom_text_form_field.dart';
 
 enum OperationType {
@@ -39,8 +42,9 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
 
   late TypeOperation type;
   final controllerDate = TextEditingController();
-  final controllerForm = TextEditingController();
+  final controllerCategory = TextEditingController();
   final controllerSum = TextEditingController();
+  final controllerUnderCategory = TextEditingController();
   final controllerNote = TextEditingController();
 
   @override
@@ -48,8 +52,9 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
     controllerDate.text = widget.operation?.date ?? DateTime.now().toString();
     type = widget.operation?.type ?? TypeOperation.expense;
     if (widget.operation != null) {
-      controllerForm.text = widget.operation?.form ?? "";
+      controllerCategory.text = widget.operation?.category ?? "";
       controllerSum.text = widget.operation?.sum.toString() ?? "";
+      controllerUnderCategory.text = widget.operation?.underCategory ?? "";
       controllerNote.text = widget.operation?.note ?? "";
     }
     super.initState();
@@ -59,9 +64,9 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
   void dispose() {
     locator.get<AppCategoriesLocalDataSource>().close();
     controllerDate.dispose();
-    controllerForm.dispose();
+    controllerCategory.dispose();
     controllerSum.dispose();
-    controllerNote.dispose();
+    controllerUnderCategory.dispose();
     super.dispose();
   }
 
@@ -69,83 +74,99 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
   Widget build(BuildContext context) {
     //final categoriesCubit = context.read<CategoriesCubit>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              DataFieldWidget(
-                hintText: 'Дата',
-                labelText: 'Дата операции',
-                controller: controllerDate,
-                validator: emptyValidator,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppAppBar(name: widget.title),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Form(
+              key: formKey,
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        type = TypeOperation.expense;
-                        setState(() {});
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                        decoration: BoxDecoration(
-                          color: type == TypeOperation.expense
-                              ? Colors.red.shade300
-                              : Colors.grey,
-                        ),
-                        child: const Text("Расход"),
-                      ),
-                    ),
+                  DataFieldWidget(
+                    hintText: 'Дата *',
+                    labelText: 'Дата операции',
+                    controller: controllerDate,
+                    validator: emptyValidator,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        type = TypeOperation.income;
-                        setState(() {});
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                        decoration: BoxDecoration(
-                          color: type == TypeOperation.income
-                              ? Colors.green.shade300
-                              : Colors.grey,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            type = TypeOperation.expense;
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 16),
+                            decoration: BoxDecoration(
+                              color: type == TypeOperation.expense
+                                  ? AppColors.redShade100
+                                  : AppColors.greyDark,
+                            ),
+                            child: const Text(
+                              "Расход",
+                              style: AppTextStyle.boldRed14,
+                            ),
+                          ),
                         ),
-                        child: const Text("Доход"),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            type = TypeOperation.income;
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 16),
+                            decoration: BoxDecoration(
+                              color: type == TypeOperation.income
+                                  ? AppColors.greenShade100
+                                  : AppColors.greyDark,
+                            ),
+                            child: const Text(
+                              "Доход",
+                              style: AppTextStyle.boldGreen14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomTextFormField(
+                    hintText: 'Категория *',
+                    labelText: 'Направление операции',
+                    categoriesKey: LocalDataConst.categoryKey,
+                    controller: controllerCategory,
+                    validator: emptyValidator,
+                  ),
+                  SumFieldWidget(
+                    hintText: 'Сумма *',
+                    labelText: 'Сумма операции',
+                    controller: controllerSum,
+                    validator: emptyValidator,
+                  ),
+                  CustomTextFormField(
+                    hintText: 'Подкатегория *',
+                    labelText: 'Дополнительно об операции',
+                    categoriesKey: LocalDataConst.underCategoryKey,
+                    controller: controllerUnderCategory,
+                    validator: emptyValidator,
                   ),
                 ],
               ),
-              CustomTextFormField(
-                hintText: 'Направление',
-                labelText: 'Направление операции',
-                categoriesKey: LocalDataConst.formCategoryKey,
-                controller: controllerForm,
-                validator: emptyValidator,
-              ),
-              SumFieldWidget(
-                hintText: 'Сумма',
-                labelText: 'Сумма операции',
-                controller: controllerSum,
-                validator: emptyValidator,
-              ),
-              CustomTextFormField(
-                hintText: 'Дополнительно',
-                labelText: 'Дополнительно об операции',
-                categoriesKey: LocalDataConst.noteCategoryKey,
-                controller: controllerNote,
-                validator: emptyValidator,
-              ),
-            ],
-          ),
+            ),
+            CustomTextFormField(
+              hintText: 'Примечание',
+              labelText: 'Для чего?',
+              controller: controllerNote,
+              categoriesKey: LocalDataConst.noteKey,
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -156,8 +177,9 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
                   locator.get<OperationLocalDataSource>().getNewId(),
               date: controllerDate.text,
               type: type,
-              form: controllerForm.text,
+              category: controllerCategory.text,
               sum: int.parse(controllerSum.text),
+              underCategory: controllerUnderCategory.text,
               note: controllerNote.text,
             ));
           }

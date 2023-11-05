@@ -12,8 +12,9 @@ _$OperationEntityImpl _$$OperationEntityImplFromJson(
       id: json['id'] as int,
       date: json['date'] as String,
       type: $enumDecode(_$TypeOperationEnumMap, json['type']),
-      form: json['form'] as String,
+      category: json['category'] as String,
       sum: json['sum'] as int,
+      underCategory: json['underCategory'] as String,
       note: json['note'] as String,
     );
 
@@ -23,8 +24,9 @@ Map<String, dynamic> _$$OperationEntityImplToJson(
       'id': instance.id,
       'date': instance.date,
       'type': _$TypeOperationEnumMap[instance.type]!,
-      'form': instance.form,
+      'category': instance.category,
       'sum': instance.sum,
+      'underCategory': instance.underCategory,
       'note': instance.note,
     };
 

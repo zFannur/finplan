@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
-import 'app_text_button.dart';
+import 'app_button.dart';
 import 'app_text_field.dart';
 
 class AppDialog extends StatefulWidget {
@@ -52,7 +53,7 @@ class _AppDialogState extends State<AppDialog> {
                   labelText: widget.val2,
                 ),
                 const SizedBox(height: 16),
-                AppTextButton(
+                AppButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() == true) {
                       context.popRoute();
@@ -62,7 +63,10 @@ class _AppDialogState extends State<AppDialog> {
                       );
                     }
                   },
-                  text: "Применить",
+                  child: const Text(
+                    'Применить',
+                    style: AppTextStyle.medium14,
+                  ),
                 ),
               ],
             ),

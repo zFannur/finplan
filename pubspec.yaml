@@ -51,6 +51,7 @@ dependencies:
   firebase_storage: ^11.2.8
   cloud_firestore: ^4.11.0
   google_fonts: ^6.1.0
+  intl: ^0.18.0 #функциональное программирование
 
 dev_dependencies:
   flutter_test:

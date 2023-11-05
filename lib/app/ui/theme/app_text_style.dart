@@ -26,5 +26,35 @@ class AppTextStyle {
     color: AppColors.green,
   );
 
+  static const medium14 = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+    color: AppColors.orange,
+  );
+
+  static const mediumRed14 = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+    color: AppColors.red,
+  );
+
+  static const mediumGreen14 = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+    color: AppColors.green,
+  );
+
+  static const mediumRed20 = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 20,
+    color: AppColors.red,
+  );
+
+  static const mediumGreen20 = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 20,
+    color: AppColors.green,
+  );
+
   AppTextStyle._();
 }

@@ -9,7 +9,7 @@ import '../../feature/finance/ui/finance_screen.dart';
 import '../../feature/finance/ui/finance_statistic_screen.dart';
 import '../../feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import '../../feature/operation/ui/operation_detail_screen.dart';
-import '../../feature/operation/ui/operation_screen.dart';
+import '../../feature/operation/ui/operations_screen.dart';
 import '../ui/root_screen.dart';
 
 part 'app_router.gr.dart';

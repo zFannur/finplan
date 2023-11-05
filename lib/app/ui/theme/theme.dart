@@ -14,5 +14,5 @@ final mainThemeData = ThemeData(
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.greyDark,
     titleTextStyle: AppTextStyle.bold24,
-  )
+  ),
 );

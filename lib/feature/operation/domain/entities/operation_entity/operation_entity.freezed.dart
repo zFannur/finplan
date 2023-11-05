@@ -23,8 +23,9 @@ mixin _$OperationEntity {
   int get id => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   TypeOperation get type => throw _privateConstructorUsedError;
-  String get form => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
   int get sum => throw _privateConstructorUsedError;
+  String get underCategory => throw _privateConstructorUsedError;
   String get note => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, includeFromJson: false)
   AsyncSnapshot<dynamic>? get userState => throw _privateConstructorUsedError;
@@ -45,8 +46,9 @@ abstract class $OperationEntityCopyWith<$Res> {
       {int id,
       String date,
       TypeOperation type,
-      String form,
+      String category,
       int sum,
+      String underCategory,
       String note,
       @JsonKey(includeToJson: false, includeFromJson: false)
       AsyncSnapshot<dynamic>? userState});
@@ -68,8 +70,9 @@ class _$OperationEntityCopyWithImpl<$Res, $Val extends OperationEntity>
     Object? id = null,
     Object? date = null,
     Object? type = null,
-    Object? form = null,
+    Object? category = null,
     Object? sum = null,
+    Object? underCategory = null,
     Object? note = null,
     Object? userState = freezed,
   }) {
@@ -86,14 +89,18 @@ class _$OperationEntityCopyWithImpl<$Res, $Val extends OperationEntity>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TypeOperation,
-      form: null == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as String,
       sum: null == sum
           ? _value.sum
           : sum // ignore: cast_nullable_to_non_nullable
               as int,
+      underCategory: null == underCategory
+          ? _value.underCategory
+          : underCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       note: null == note
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
@@ -118,8 +125,9 @@ abstract class _$$OperationEntityImplCopyWith<$Res>
       {int id,
       String date,
       TypeOperation type,
-      String form,
+      String category,
       int sum,
+      String underCategory,
       String note,
       @JsonKey(includeToJson: false, includeFromJson: false)
       AsyncSnapshot<dynamic>? userState});
@@ -139,8 +147,9 @@ class __$$OperationEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? date = null,
     Object? type = null,
-    Object? form = null,
+    Object? category = null,
     Object? sum = null,
+    Object? underCategory = null,
     Object? note = null,
     Object? userState = freezed,
   }) {
@@ -157,14 +166,18 @@ class __$$OperationEntityImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TypeOperation,
-      form: null == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as String,
       sum: null == sum
           ? _value.sum
           : sum // ignore: cast_nullable_to_non_nullable
               as int,
+      underCategory: null == underCategory
+          ? _value.underCategory
+          : underCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       note: null == note
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
@@ -184,8 +197,9 @@ class _$OperationEntityImpl implements _OperationEntity {
       {required this.id,
       required this.date,
       required this.type,
-      required this.form,
+      required this.category,
       required this.sum,
+      required this.underCategory,
       required this.note,
       @JsonKey(includeToJson: false, includeFromJson: false) this.userState});
 
@@ -199,9 +213,11 @@ class _$OperationEntityImpl implements _OperationEntity {
   @override
   final TypeOperation type;
   @override
-  final String form;
+  final String category;
   @override
   final int sum;
+  @override
+  final String underCategory;
   @override
   final String note;
   @override
@@ -210,7 +226,7 @@ class _$OperationEntityImpl implements _OperationEntity {
 
   @override
   String toString() {
-    return 'OperationEntity(id: $id, date: $date, type: $type, form: $form, sum: $sum, note: $note, userState: $userState)';
+    return 'OperationEntity(id: $id, date: $date, type: $type, category: $category, sum: $sum, underCategory: $underCategory, note: $note, userState: $userState)';
   }
 
   @override
@@ -221,8 +237,11 @@ class _$OperationEntityImpl implements _OperationEntity {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.form, form) || other.form == form) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.sum, sum) || other.sum == sum) &&
+            (identical(other.underCategory, underCategory) ||
+                other.underCategory == underCategory) &&
             (identical(other.note, note) || other.note == note) &&
             (identical(other.userState, userState) ||
                 other.userState == userState));
@@ -230,8 +249,8 @@ class _$OperationEntityImpl implements _OperationEntity {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, date, type, form, sum, note, userState);
+  int get hashCode => Object.hash(runtimeType, id, date, type, category, sum,
+      underCategory, note, userState);
 
   @JsonKey(ignore: true)
   @override
@@ -253,8 +272,9 @@ abstract class _OperationEntity implements OperationEntity {
       {required final int id,
       required final String date,
       required final TypeOperation type,
-      required final String form,
+      required final String category,
       required final int sum,
+      required final String underCategory,
       required final String note,
       @JsonKey(includeToJson: false, includeFromJson: false)
       final AsyncSnapshot<dynamic>? userState}) = _$OperationEntityImpl;
@@ -269,9 +289,11 @@ abstract class _OperationEntity implements OperationEntity {
   @override
   TypeOperation get type;
   @override
-  String get form;
+  String get category;
   @override
   int get sum;
+  @override
+  String get underCategory;
   @override
   String get note;
   @override

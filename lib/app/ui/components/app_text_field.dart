@@ -1,28 +1,62 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
+import '../theme/app_text_style.dart';
+
 class AppTextField extends StatelessWidget {
   const AppTextField({
     super.key,
-    required this.controller,
+    this.controller,
     required this.labelText,
     this.obscureText = false,
+    this.onChanged,
+    this.onTap,
+    this.keyboardType,
+    this.validator,
   });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String labelText;
   final bool obscureText;
+  final Function(String value)? onChanged;
+  final Function()? onTap;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      onTap: onTap,
       obscureText: obscureText,
-      validator: emptyValidator,
+      validator: validator ?? emptyValidator,
       maxLines: 1,
       controller: controller,
+      style: AppTextStyle.bold24,
+      cursorColor: AppColors.orange,
       decoration: InputDecoration(
-        labelText: labelText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+        hintText: labelText,
+        hintStyle: AppTextStyle.bold24,
+        fillColor: AppColors.grey,
+        filled: false,
+        focusColor: AppColors.orange,
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColors.orange,
+          ),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColors.orange,
+            width: 2,
+          ),
+        ),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColors.orange,
+          ),
         ),
       ),
     );

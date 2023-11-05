@@ -3,9 +3,13 @@ import 'package:flutter/cupertino.dart';
 class AppPadding {
   static const top18 = EdgeInsets.only(top: 18);
 
+  static const top8 = EdgeInsets.only(top: 8);
+
   static const all16 = EdgeInsets.all(16);
 
   static const v10h40 = EdgeInsets.fromLTRB(40, 10, 40, 10);
+
+  static const v10h20 = EdgeInsets.fromLTRB(20, 10, 20, 10);
 
   AppPadding._();
 }

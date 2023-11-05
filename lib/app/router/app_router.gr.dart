@@ -57,7 +57,7 @@ abstract class _$AppRouter extends RootStackRouter {
     OperationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const OperationPage(),
+        child: const OperationScreen(),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -207,7 +207,7 @@ class OperationDetailRouteArgs {
 }
 
 /// generated route for
-/// [OperationPage]
+/// [OperationScreen]
 class OperationRoute extends PageRouteInfo<void> {
   const OperationRoute({List<PageRouteInfo>? children})
       : super(

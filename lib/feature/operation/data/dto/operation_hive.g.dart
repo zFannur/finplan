@@ -17,19 +17,20 @@ class OperationHiveAdapter extends TypeAdapter<OperationHive> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return OperationHive(
+      note: fields[6] as String,
       id: fields[0] as int,
       date: fields[1] as String,
       type: fields[2] as String,
-      form: fields[3] as String,
+      category: fields[3] as String,
       sum: fields[4] as int,
-      note: fields[5] as String,
+      underCategory: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, OperationHive obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -37,10 +38,12 @@ class OperationHiveAdapter extends TypeAdapter<OperationHive> {
       ..writeByte(2)
       ..write(obj.type)
       ..writeByte(3)
-      ..write(obj.form)
+      ..write(obj.category)
       ..writeByte(4)
       ..write(obj.sum)
       ..writeByte(5)
+      ..write(obj.underCategory)
+      ..writeByte(6)
       ..write(obj.note);
   }
 

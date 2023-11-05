@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/domain/state/categories/categories_cubit.dart';
 import '../../../app/router/app_router.dart';
-import '../../operation/domain/operation_state/operation_cubit.dart';
+import '../../operation/ui/bloc/operation_cubit/operation_cubit.dart';
 
 @RoutePage()
 class FinanceScreen extends StatelessWidget {
@@ -46,8 +46,8 @@ class FinanceScreen extends StatelessWidget {
                 onTap: (operationEntity) {
                   context.read<OperationCubit>().addOperation(operationEntity);
                   context.read<CategoriesCubit>().add(
-                    form: operationEntity.form,
-                    note: operationEntity.note,
+                    category: operationEntity.category,
+                    underCategory: operationEntity.underCategory,
                   );
                   context.popRoute();
                 },
