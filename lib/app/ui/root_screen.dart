@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:finplan/app/router/app_router.dart';
 import 'package:finplan/app/ui/components/app_auth_icon.dart';
-import 'package:finplan/feature/operation/ui/operations_screen.dart';
+import 'package:finplan/feature/operation/ui/operations_page.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -34,7 +34,7 @@ class RootScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (BuildContext context) => OperationScreen()),
+                MaterialPageRoute(builder: (BuildContext context) => OperationPage()),
               );
             },
             child: Text(

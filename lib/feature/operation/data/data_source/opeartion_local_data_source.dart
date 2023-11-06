@@ -24,7 +24,7 @@ abstract class OperationLocalDataSource {
 class AOperationLocalDataSourceImpl implements OperationLocalDataSource {
   final _dataSource = AppLocalDataSource<OperationHive>(
     key: LocalDataConst.operationKey,
-    typeId: 0,
+    typeId: LocalDataConst.operationTypeId,
     adapter: OperationHiveAdapter(),
   );
 

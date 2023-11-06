@@ -30,6 +30,7 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
   Future<void> add({
     String? category,
     String? underCategory,
+    String? note,
   }) async {
     try {
       if (category != null) {
@@ -37,6 +38,9 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
       }
       if (underCategory != null) {
         await repository.add(underCategory, LocalDataConst.underCategoryKey);
+      }
+      if (note != null) {
+        await repository.add(note, LocalDataConst.noteKey);
       }
     } catch (error, st) {
       addError(error, st);

@@ -1,9 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/domain/state/categories/categories_cubit.dart';
+import '../../../../app/router/app_router.dart';
 import '../../../../app/ui/theme/app_colors.dart';
 import '../../../../app/ui/theme/app_text_style.dart';
 import '../../../../app/ui/theme/consts.dart';
 import '../../domain/entities/operation_entity/operation_entity.dart';
+import '../bloc/operation_cubit/operation_cubit.dart';
 
 class OperationsPerDay extends StatelessWidget {
   final DateTime date;
@@ -19,6 +24,7 @@ class OperationsPerDay extends StatelessWidget {
   Widget build(BuildContext context) {
     int sumExpense = 0;
     int sumIncome = 0;
+    // TODO: убрать расчеты в cubit или usecase
     for (var element in listOperations) {
       if (element.type == TypeOperation.expense) {
         sumExpense += element.sum;
@@ -61,21 +67,40 @@ class OperationsPerDay extends StatelessWidget {
         Column(
           children: List.generate(listOperations.length, (index) {
             final TextStyle style14 =
-            listOperations[index].type == TypeOperation.expense
-                ? AppTextStyle.mediumRed14
-                : AppTextStyle.mediumGreen14;
+                listOperations[index].type == TypeOperation.expense
+                    ? AppTextStyle.mediumRed14
+                    : AppTextStyle.mediumGreen14;
 
             final TextStyle style20 =
-            listOperations[index].type == TypeOperation.expense
-                ? AppTextStyle.mediumRed20
-                : AppTextStyle.mediumGreen20;
+                listOperations[index].type == TypeOperation.expense
+                    ? AppTextStyle.mediumRed20
+                    : AppTextStyle.mediumGreen20;
             return Column(
               children: [
                 InkWell(
                   onTap: () {
-                    //navigate to detail
+                    context.pushRoute(
+                      OperationDetailRoute(
+                        operation: listOperations[index],
+                        buttonIcon: Icons.edit,
+                        onTap: (operationEntity) {
+                          context
+                              .read<OperationCubit>()
+                              .editOperation(operationEntity);
+
+                          context.read<CategoriesCubit>().add(
+                                category: operationEntity.category,
+                                underCategory: operationEntity.underCategory,
+                                note: operationEntity.note,
+                              );
+                          context.popRoute();
+                        },
+                        title: 'Редактирование',
+                      ),
+                    );
                   },
                   child: Container(
+                    padding: AppPadding.all8,
                     color: listOperations[index].type == TypeOperation.expense
                         ? AppColors.redShade100
                         : AppColors.greenShade100,
@@ -90,9 +115,12 @@ class OperationsPerDay extends StatelessWidget {
                                 listOperations[index].underCategory,
                                 style: style14,
                               ),
-                              Text(
-                                listOperations[index].note,
-                                style: style14,
+                              Visibility(
+                                visible: listOperations[index].note.isNotEmpty,
+                                child: Text(
+                                  listOperations[index].note,
+                                  style: style14,
+                                ),
                               ),
                             ],
                           ),
@@ -116,7 +144,7 @@ class OperationsPerDay extends StatelessWidget {
                   ),
                 ),
                 Visibility(
-                  visible: index == 3 ? false : true,
+                  visible: index == listOperations.length ? false : true,
                   child: const Divider(height: 1, color: AppColors.black),
                 ),
               ],

@@ -184,7 +184,7 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
             ));
           }
         },
-        child: Icon(widget.buttonIcon),
+        child: Icon(widget.buttonIcon, color: AppColors.orange),
       ),
     );
   }

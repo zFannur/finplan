@@ -14,10 +14,6 @@ class OperationEntity with _$OperationEntity {
     required int sum,
     required String underCategory,
     required String note,
-    @JsonKey(
-      includeToJson: false,
-      includeFromJson: false,)
-    AsyncSnapshot? userState,
   }) = _OperationEntity;
 
   factory OperationEntity.fromJson(Map<String, dynamic> json) =>

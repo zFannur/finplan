@@ -27,8 +27,6 @@ mixin _$OperationEntity {
   int get sum => throw _privateConstructorUsedError;
   String get underCategory => throw _privateConstructorUsedError;
   String get note => throw _privateConstructorUsedError;
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  AsyncSnapshot<dynamic>? get userState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,9 +47,7 @@ abstract class $OperationEntityCopyWith<$Res> {
       String category,
       int sum,
       String underCategory,
-      String note,
-      @JsonKey(includeToJson: false, includeFromJson: false)
-      AsyncSnapshot<dynamic>? userState});
+      String note});
 }
 
 /// @nodoc
@@ -74,7 +70,6 @@ class _$OperationEntityCopyWithImpl<$Res, $Val extends OperationEntity>
     Object? sum = null,
     Object? underCategory = null,
     Object? note = null,
-    Object? userState = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -105,10 +100,6 @@ class _$OperationEntityCopyWithImpl<$Res, $Val extends OperationEntity>
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
               as String,
-      userState: freezed == userState
-          ? _value.userState
-          : userState // ignore: cast_nullable_to_non_nullable
-              as AsyncSnapshot<dynamic>?,
     ) as $Val);
   }
 }
@@ -128,9 +119,7 @@ abstract class _$$OperationEntityImplCopyWith<$Res>
       String category,
       int sum,
       String underCategory,
-      String note,
-      @JsonKey(includeToJson: false, includeFromJson: false)
-      AsyncSnapshot<dynamic>? userState});
+      String note});
 }
 
 /// @nodoc
@@ -151,7 +140,6 @@ class __$$OperationEntityImplCopyWithImpl<$Res>
     Object? sum = null,
     Object? underCategory = null,
     Object? note = null,
-    Object? userState = freezed,
   }) {
     return _then(_$OperationEntityImpl(
       id: null == id
@@ -182,10 +170,6 @@ class __$$OperationEntityImplCopyWithImpl<$Res>
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
               as String,
-      userState: freezed == userState
-          ? _value.userState
-          : userState // ignore: cast_nullable_to_non_nullable
-              as AsyncSnapshot<dynamic>?,
     ));
   }
 }
@@ -200,8 +184,7 @@ class _$OperationEntityImpl implements _OperationEntity {
       required this.category,
       required this.sum,
       required this.underCategory,
-      required this.note,
-      @JsonKey(includeToJson: false, includeFromJson: false) this.userState});
+      required this.note});
 
   factory _$OperationEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$OperationEntityImplFromJson(json);
@@ -220,13 +203,10 @@ class _$OperationEntityImpl implements _OperationEntity {
   final String underCategory;
   @override
   final String note;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  final AsyncSnapshot<dynamic>? userState;
 
   @override
   String toString() {
-    return 'OperationEntity(id: $id, date: $date, type: $type, category: $category, sum: $sum, underCategory: $underCategory, note: $note, userState: $userState)';
+    return 'OperationEntity(id: $id, date: $date, type: $type, category: $category, sum: $sum, underCategory: $underCategory, note: $note)';
   }
 
   @override
@@ -242,15 +222,13 @@ class _$OperationEntityImpl implements _OperationEntity {
             (identical(other.sum, sum) || other.sum == sum) &&
             (identical(other.underCategory, underCategory) ||
                 other.underCategory == underCategory) &&
-            (identical(other.note, note) || other.note == note) &&
-            (identical(other.userState, userState) ||
-                other.userState == userState));
+            (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, date, type, category, sum,
-      underCategory, note, userState);
+  int get hashCode => Object.hash(
+      runtimeType, id, date, type, category, sum, underCategory, note);
 
   @JsonKey(ignore: true)
   @override
@@ -275,9 +253,7 @@ abstract class _OperationEntity implements OperationEntity {
       required final String category,
       required final int sum,
       required final String underCategory,
-      required final String note,
-      @JsonKey(includeToJson: false, includeFromJson: false)
-      final AsyncSnapshot<dynamic>? userState}) = _$OperationEntityImpl;
+      required final String note}) = _$OperationEntityImpl;
 
   factory _OperationEntity.fromJson(Map<String, dynamic> json) =
       _$OperationEntityImpl.fromJson;
@@ -296,9 +272,6 @@ abstract class _OperationEntity implements OperationEntity {
   String get underCategory;
   @override
   String get note;
-  @override
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  AsyncSnapshot<dynamic>? get userState;
   @override
   @JsonKey(ignore: true)
   _$$OperationEntityImplCopyWith<_$OperationEntityImpl> get copyWith =>

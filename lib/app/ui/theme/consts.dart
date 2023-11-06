@@ -7,6 +7,8 @@ class AppPadding {
 
   static const all16 = EdgeInsets.all(16);
 
+  static const all8 = EdgeInsets.all(8);
+
   static const v10h40 = EdgeInsets.fromLTRB(40, 10, 40, 10);
 
   static const v10h20 = EdgeInsets.fromLTRB(20, 10, 20, 10);

@@ -2,6 +2,12 @@ import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTextStyle {
+  static const mediumBlack20 = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 20,
+    color: AppColors.black,
+  );
+
   static const bold24 = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 24,

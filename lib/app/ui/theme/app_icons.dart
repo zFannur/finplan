@@ -14,4 +14,9 @@ class AppIcons {
     Icons.settings,
     color: AppColors.orange,
   );
+
+  static const Widget add = Icon(
+    Icons.add,
+    color: AppColors.orange,
+  );
 }

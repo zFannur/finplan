@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthScreen(),
       );
     },
+    FinancePlanRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FinancePlanPage(),
+      );
+    },
     FinanceRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -30,7 +36,7 @@ abstract class _$AppRouter extends RootStackRouter {
     FinanceStatisticRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const FinanceStatisticScreen(),
+        child: const FinanceStatisticPage(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -57,7 +63,7 @@ abstract class _$AppRouter extends RootStackRouter {
     OperationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const OperationScreen(),
+        child: const OperationPage(),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -98,6 +104,20 @@ class AuthRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [FinancePlanPage]
+class FinancePlanRoute extends PageRouteInfo<void> {
+  const FinancePlanRoute({List<PageRouteInfo>? children})
+      : super(
+          FinancePlanRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FinancePlanRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [FinanceScreen]
 class FinanceRoute extends PageRouteInfo<void> {
   const FinanceRoute({List<PageRouteInfo>? children})
@@ -112,7 +132,7 @@ class FinanceRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [FinanceStatisticScreen]
+/// [FinanceStatisticPage]
 class FinanceStatisticRoute extends PageRouteInfo<void> {
   const FinanceStatisticRoute({List<PageRouteInfo>? children})
       : super(
@@ -207,7 +227,7 @@ class OperationDetailRouteArgs {
 }
 
 /// generated route for
-/// [OperationScreen]
+/// [OperationPage]
 class OperationRoute extends PageRouteInfo<void> {
   const OperationRoute({List<PageRouteInfo>? children})
       : super(

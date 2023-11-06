@@ -2,8 +2,8 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class FinanceStatisticScreen extends StatelessWidget {
-  const FinanceStatisticScreen({super.key});
+class FinanceStatisticPage extends StatelessWidget {
+  const FinanceStatisticPage({super.key});
 
   @override
   Widget build(BuildContext context) {
