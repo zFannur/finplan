@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../app/domain/error_entity/error_entity.dart';
 import '../../../../app/ui/components/app_loader.dart';
 import '../../../../app/ui/components/app_snack_bar.dart';
+import '../../../../app/ui/theme/app_text_style.dart';
 import 'operation_per_day.dart';
 
 enum PageType { all, week, month, search }
@@ -121,7 +122,10 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
                     });
               }
 
-              return const Text("Нету операции");
+              return const Text(
+                "Нету операции",
+                style: AppTextStyle.bold24,
+              );
             },
           ),
         ),

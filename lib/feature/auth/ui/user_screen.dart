@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/domain/error_entity/error_entity.dart';
 import '../../../app/ui/components/app_loader.dart';
-import '../../../app/ui/components/app_dialog.dart';
+import '../../../app/ui/components/app_plan_dialog.dart';
 import '../../../app/ui/components/app_snack_bar.dart';
 import '../domain/auth_state/auth_cubit.dart';
 
@@ -82,37 +82,37 @@ class UserScreen extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AppDialog(
-                            val1: "Новый Пароль",
-                            val2: "Повтор пороля",
-                            onPressed: (v1, v2) {
-                              context.read<AuthCubit>().passwordUpdate(
-                                    newPassword: v1,
-                                    repPassword: v2,
-                                  );
-                            },
-                          ),
-                        );
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) => AppDialog(
+                        //     val1: "Новый Пароль",
+                        //     val2: "Повтор пороля",
+                        //     onPressed: (v1, v2) {
+                        //       context.read<AuthCubit>().passwordUpdate(
+                        //             newPassword: v1,
+                        //             repPassword: v2,
+                        //           );
+                        //     },
+                        //   ),
+                        // );
                       },
                       child: const Text("Обновить пароль"),
                     ),
                     TextButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AppDialog(
-                            val1: "Имя пользователя",
-                            val2: "Почта",
-                            onPressed: (v1, v2) {
-                              context.read<AuthCubit>().userUpdate(
-                                    email: v2,
-                                    username: v1,
-                                  );
-                            },
-                          ),
-                        );
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) => AppDialog(
+                        //     val1: "Имя пользователя",
+                        //     val2: "Почта",
+                        //     onPressed: (v1, v2) {
+                        //       context.read<AuthCubit>().userUpdate(
+                        //             email: v2,
+                        //             username: v1,
+                        //           );
+                        //     },
+                        //   ),
+                        // );
                       },
                       child: const Text("Обновить данные"),
                     ),

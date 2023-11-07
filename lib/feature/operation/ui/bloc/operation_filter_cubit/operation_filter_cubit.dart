@@ -22,7 +22,7 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       : super(
           const OperationFilterState(asyncSnapshot: AsyncSnapshot.nothing()),
         ) {
-    operationCubit.getOperation();
+    //operationCubit.getOperation();
     operationSubscription = operationCubit.stream.listen((event) {
       event.mapOrNull(
         loaded: (value) => operationCubit.state.whenOrNull(

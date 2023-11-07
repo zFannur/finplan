@@ -7,7 +7,8 @@ part 'plan_entity.g.dart';
 class PlanEntity with _$PlanEntity {
   const factory PlanEntity({
     required int id,
-    required String name,
+    required String date,
+    required PlanType type,
     required String category,
     required int sum,
     int? forecast,
@@ -16,3 +17,5 @@ class PlanEntity with _$PlanEntity {
   factory PlanEntity.fromJson(Map<String, dynamic> json) =>
       _$PlanEntityFromJson(json);
 }
+
+enum PlanType {expense, income, target, since, habit}

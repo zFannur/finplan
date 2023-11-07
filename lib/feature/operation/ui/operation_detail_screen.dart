@@ -3,8 +3,11 @@ import 'package:finplan/app/di/init_di.dart';
 import 'package:finplan/app/ui/components/app_bar.dart';
 import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
+import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
+import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/const/app_local_data_keys.dart';
 import '../../../app/data/data_source/app_categories_local_data_source.dart';
@@ -49,6 +52,7 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
 
   @override
   void initState() {
+    context.read<OperationCubit>().getOperation();
     controllerDate.text = widget.operation?.date ?? DateTime.now().toString();
     type = widget.operation?.type ?? TypeOperation.expense;
     if (widget.operation != null) {
@@ -169,22 +173,44 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (formKey.currentState?.validate() == true) {
-            widget.onTap(OperationEntity(
-              id: widget.operation?.id ??
-                  locator.get<OperationLocalDataSource>().getNewId(),
-              date: controllerDate.text,
-              type: type,
-              category: controllerCategory.text,
-              sum: int.parse(controllerSum.text),
-              underCategory: controllerUnderCategory.text,
-              note: controllerNote.text,
-            ));
-          }
-        },
-        child: Icon(widget.buttonIcon, color: AppColors.orange),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Visibility(
+            visible: widget.operation != null,
+            child: FloatingActionButton(
+              heroTag: '1',
+              onPressed: () {
+                context
+                    .read<OperationCubit>()
+                    .deleteOperation(widget.operation!);
+              },
+              child: const Icon(
+                Icons.delete,
+                color: AppColors.orange,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: '2',
+            onPressed: () {
+              if (formKey.currentState?.validate() == true) {
+                widget.onTap(OperationEntity(
+                  id: widget.operation?.id ??
+                      locator.get<OperationLocalDataSource>().getNewId(),
+                  date: controllerDate.text,
+                  type: type,
+                  category: controllerCategory.text,
+                  sum: int.parse(controllerSum.text),
+                  underCategory: controllerUnderCategory.text,
+                  note: controllerNote.text,
+                ));
+              }
+            },
+            child: Icon(widget.buttonIcon, color: AppColors.orange),
+          ),
+        ],
       ),
     );
   }

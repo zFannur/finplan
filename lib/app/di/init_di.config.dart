@@ -27,8 +27,6 @@ import 'package:finplan/feature/finance/data/plan_repository_impl.dart' as _i19;
 import 'package:finplan/feature/finance/domain/plan_repository.dart' as _i18;
 import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart'
     as _i20;
-import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart'
-    as _i22;
 import 'package:finplan/feature/operation/data/data_source/opeartion_local_data_source.dart'
     as _i13;
 import 'package:finplan/feature/operation/data/operation_repository_impl.dart'
@@ -38,7 +36,7 @@ import 'package:finplan/feature/operation/domain/operation_repository.dart'
 import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart'
     as _i16;
 import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart'
-    as _i23;
+    as _i22;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -137,12 +135,8 @@ extension GetItInjectableX on _i1.GetIt {
       },
     );
     gh.singleton<_i21.AuthCubit>(_i21.AuthCubit(gh<_i10.AuthRepository>()));
-    gh.singleton<_i22.FinancePlanCubit>(_i22.FinancePlanCubit(
-      gh<_i20.PlanUseCase>(),
-      gh<_i16.OperationUseCase>(),
-    ));
-    gh.singleton<_i23.OperationCubit>(
-        _i23.OperationCubit(gh<_i16.OperationUseCase>()));
+    gh.singleton<_i22.OperationCubit>(
+        _i22.OperationCubit(gh<_i16.OperationUseCase>()));
     return this;
   }
 }
