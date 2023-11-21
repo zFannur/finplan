@@ -15,6 +15,10 @@ abstract class OperationLocalDataSource {
 
   Future<void> editOperation(OperationEntity operation);
 
+  Future<void> clearOperations();
+
+  Future<void> addListOperations(List<OperationEntity> operations);
+
   int getNewId();
 }
 
@@ -85,5 +89,17 @@ class AOperationLocalDataSourceImpl implements OperationLocalDataSource {
     }
 
     return index + 1;
+  }
+
+  @override
+  Future<void> clearOperations() async {
+    final box = await _dataSource.openBox();
+    return _dataSource.clear(box);
+  }
+
+  @override
+  Future<void> addListOperations(List<OperationEntity> operations) async {
+    await _dataSource.openBox();
+    return _dataSource.addList(ConvertOperation.toOperationHiveList(operations));
   }
 }

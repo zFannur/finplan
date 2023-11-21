@@ -15,6 +15,23 @@ class ConvertOperation {
     return operationModel;
   }
 
+  static List<OperationHive> toOperationHiveList(List<OperationEntity> operations) {
+    List<OperationHive> result = [];
+    for (int i = 0; i < operations.length; i++) {
+      final operationHive = OperationHive(
+        id: operations[i].id,
+        date: operations[i].date,
+        type: operations[i].type.toHive(),
+        category: operations[i].category,
+        sum: operations[i].sum,
+        underCategory: operations[i].underCategory,
+        note: operations[i].note,
+      );
+      result.add(operationHive);
+    }
+    return result;
+  }
+
   static List<OperationEntity> toOperation(
       List<OperationHive> operationModelHive) {
     List<OperationEntity> result = [];

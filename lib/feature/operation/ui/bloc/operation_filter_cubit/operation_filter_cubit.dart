@@ -22,7 +22,7 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       : super(
           const OperationFilterState(asyncSnapshot: AsyncSnapshot.nothing()),
         ) {
-    //operationCubit.getOperation();
+    operationCubit.getOperation();
     operationSubscription = operationCubit.stream.listen((event) {
       event.mapOrNull(
         loaded: (value) => operationCubit.state.whenOrNull(
@@ -46,7 +46,6 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       for (int i = 0; i < operationList.length; i++) {
         setDate.add(dateFormat.parse(operationList[i].date));
       }
-
       //sort by date
       final list = setDate.toList();
       list.sort((a, b) => b.compareTo(a));

@@ -8,6 +8,7 @@ abstract class OperationUseCase {
   Future<List<OperationEntity>> deleteOperation(OperationEntity operationEntity);
   Future<List<OperationEntity>> addOperation(OperationEntity operationEntity);
   Future<List<OperationEntity>> editOperation(OperationEntity operationEntity);
+  Future<void> addDataFromFile(List<OperationEntity> operations);
 }
 
 @Injectable(as: OperationUseCase)
@@ -25,7 +26,7 @@ class OperationUseCaseImpl implements OperationUseCase{
 
   @override
   Future<List<OperationEntity>> deleteOperation(OperationEntity operationEntity) async {
-    await operationRepository.addOperation(operationEntity);
+    await operationRepository.deleteOperation(operationEntity);
     return operationRepository.getOperation();
   }
 
@@ -38,6 +39,11 @@ class OperationUseCaseImpl implements OperationUseCase{
   @override
   Future<List<OperationEntity>> getOperation() {
     return operationRepository.getOperation();
+  }
+
+  @override
+  Future<void> addDataFromFile(List<OperationEntity> operations) {
+    return operationRepository.addDataFromFile(operations);
   }
 
 }

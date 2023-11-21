@@ -44,8 +44,8 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
               name: 'Все',
               onTap: () {
                 if (_currentPage == PageType.all) return;
-                context.read<OperationCubit>().getOperation();
                 onSelectedPage(PageType.all);
+                context.read<OperationCubit>().getOperation();
               },
             ),
             CustomTextButton(
@@ -117,7 +117,8 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
                     itemBuilder: (BuildContext context, int index) {
                       return OperationsPerDay(
                         date: state.mapByDay!.keys.elementAt(index),
-                        listOperations: state.mapByDay!.values.elementAt(index),
+                        listOperations:
+                        state.mapByDay!.values.elementAt(index),
                       );
                     });
               }

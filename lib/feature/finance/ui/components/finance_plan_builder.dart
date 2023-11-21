@@ -95,9 +95,13 @@ class SelectMonthPanel extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text(
-            'Месяц',
-            style: AppTextStyle.bold14,
+          Column(
+            children: [
+              const Text(
+                'Месяц',
+                style: AppTextStyle.bold14,
+              ),
+            ],
           ),
           DropdownButton<int>(
             //isExpanded: true,
@@ -121,6 +125,38 @@ class SelectMonthPanel extends StatelessWidget {
             },
             items:
                 planCubit.state.monthSet?.map<DropdownMenuItem<int>>((value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text(value.toString().toMonthName()),
+              );
+            }).toList(),
+          ),
+          const Text(
+            'Год',
+            style: AppTextStyle.bold14,
+          ),
+          DropdownButton<int>(
+            //isExpanded: true,
+            iconSize: 24,
+            alignment: Alignment.center,
+            value: selectedMonth,
+            icon: const Icon(
+              Icons.arrow_drop_down,
+              color: AppColors.orange,
+            ),
+            elevation: 16,
+            style: AppTextStyle.bold14,
+            dropdownColor: AppColors.greyDark,
+            underline: Container(
+              width: double.infinity,
+              height: 2,
+              color: AppColors.orange,
+            ),
+            onChanged: (value) {
+              planCubit.setMonth(value ?? 1);
+            },
+            items:
+            planCubit.state.monthSet?.map<DropdownMenuItem<int>>((value) {
               return DropdownMenuItem<int>(
                 value: value,
                 child: Text(value.toString().toMonthName()),

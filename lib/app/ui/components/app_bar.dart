@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_icons.dart';
 
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String name;
+  final bool? withSettings;
 
   const AppAppBar({
     super.key,
-    required this.name,
+    required this.name, this.withSettings,
   });
 
   @override
@@ -22,14 +24,14 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       title: Text(name),
-      actions: [
+      actions: (withSettings ?? true) ? [
         IconButton(
           onPressed: () {
-            //navigate to settings
+            context.pushRoute(const SettingsRoute());
           },
           icon: AppIcons.settings,
         )
-      ],
+      ] : [],
     );
   }
 

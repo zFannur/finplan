@@ -8,6 +8,7 @@ import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart';
 import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart';
 import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart';
 import 'package:finplan/feature/operation/ui/bloc/operation_filter_cubit/operation_filter_cubit.dart';
+import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,6 +42,8 @@ class _GlobalProviders extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+            create: (context) => locator.get<SettingsCubit>()),
         BlocProvider(
             create: (context) => locator.get<OperationCubit>()..getOperation()),
         BlocProvider(

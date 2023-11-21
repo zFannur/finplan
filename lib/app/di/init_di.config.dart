@@ -36,7 +36,10 @@ import 'package:finplan/feature/operation/domain/operation_repository.dart'
 import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart'
     as _i16;
 import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart'
+    as _i23;
+import 'package:finplan/feature/settings/domain/usecase/import_export_usecase.dart'
     as _i22;
+import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart' as _i24;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -135,8 +138,19 @@ extension GetItInjectableX on _i1.GetIt {
       },
     );
     gh.singleton<_i21.AuthCubit>(_i21.AuthCubit(gh<_i10.AuthRepository>()));
-    gh.singleton<_i22.OperationCubit>(
-        _i22.OperationCubit(gh<_i16.OperationUseCase>()));
+    gh.factory<_i22.ImportExportUseCase>(
+      () => _i22.ImportExportUseCase(gh<_i16.OperationUseCase>()),
+      registerFor: {
+        _prod,
+        _dev,
+      },
+    );
+    gh.singleton<_i23.OperationCubit>(
+        _i23.OperationCubit(gh<_i16.OperationUseCase>()));
+    gh.singleton<_i24.SettingsCubit>(_i24.SettingsCubit(
+      gh<_i22.ImportExportUseCase>(),
+      gh<_i16.OperationUseCase>(),
+    ));
     return this;
   }
 }

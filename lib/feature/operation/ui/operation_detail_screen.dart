@@ -1,9 +1,8 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:finplan/app/di/init_di.dart';
 import 'package:finplan/app/ui/components/app_bar.dart';
 import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
-import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
 
   @override
   void initState() {
-    context.read<OperationCubit>().getOperation();
+    //context.read<OperationCubit>().getOperation();
     controllerDate.text = widget.operation?.date ?? DateTime.now().toString();
     type = widget.operation?.type ?? TypeOperation.expense;
     if (widget.operation != null) {
@@ -184,6 +183,7 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
                 context
                     .read<OperationCubit>()
                     .deleteOperation(widget.operation!);
+                context.popRoute();
               },
               child: const Icon(
                 Icons.delete,

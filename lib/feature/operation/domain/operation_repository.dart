@@ -5,4 +5,5 @@ abstract class OperationRepository {
   Future<void> deleteOperation(OperationEntity operationEntity);
   Future<void> addOperation(OperationEntity operationEntity);
   Future<void> editOperation(OperationEntity operationEntity);
+  Future<void> addDataFromFile(List<OperationEntity> operations);
 }

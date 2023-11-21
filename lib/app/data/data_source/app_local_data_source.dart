@@ -26,6 +26,11 @@ class AppLocalDataSource<T> {
     box.add(value);
   }
 
+  Future<void> addList(List<T> value) async {
+    final box = await openBox();
+    box.addAll(value);
+  }
+
   Future<T?> get() async {
     final box = await openBox();
     return box.get(key);
@@ -40,6 +45,12 @@ class AppLocalDataSource<T> {
     await box.compact();
     await box.close();
   }
+
+  Future<void> clear(Box<T> box) async {
+    final box = await openBox();
+    await box.clear();
+  }
+
 
   Future<Box<T>> openBox() async {
     if (typeId != null && adapter != null) {

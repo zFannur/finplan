@@ -31,4 +31,10 @@ class OperationRepositoryImpl implements OperationRepository {
   Future<List<OperationEntity>> getOperation() {
     return _localDataSource.getOperation();
   }
+
+  @override
+  Future<void> addDataFromFile(List<OperationEntity> operations) async {
+    await _localDataSource.clearOperations();
+    return _localDataSource.addListOperations(operations);
+  }
 }
