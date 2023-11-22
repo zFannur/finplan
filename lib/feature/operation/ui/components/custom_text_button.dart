@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/ui/theme/app_colors.dart';
 import '../../../../app/ui/theme/app_text_style.dart';
-import 'operations_builder.dart';
 
 class CustomTextButton extends StatelessWidget {
-  final PageType currentPage;
-  final PageType selectedPage;
+  final bool isSelected;
   final String name;
   final Function() onTap;
 
   const CustomTextButton({
     super.key,
-    required this.currentPage,
-    required this.selectedPage,
+    required this.isSelected,
     required this.name,
     required this.onTap,
   });
@@ -21,7 +18,7 @@ class CustomTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: currentPage == selectedPage
+      style: isSelected
           ? TextButton.styleFrom(
               side: const BorderSide(
                 width: 2.0,

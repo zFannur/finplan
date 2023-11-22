@@ -39,8 +39,7 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CustomTextButton(
-              currentPage: _currentPage,
-              selectedPage: PageType.all,
+              isSelected: _currentPage == PageType.all ? true : false,
               name: 'Все',
               onTap: () {
                 if (_currentPage == PageType.all) return;
@@ -49,24 +48,21 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
               },
             ),
             CustomTextButton(
-              currentPage: _currentPage,
-              selectedPage: PageType.week,
+              isSelected: _currentPage == PageType.week ? true : false,
               name: 'Неделя',
               onTap: () {
                 onSelectedPage(PageType.week);
               },
             ),
             CustomTextButton(
-              currentPage: _currentPage,
-              selectedPage: PageType.month,
+              isSelected: _currentPage == PageType.month ? true : false,
               name: 'Месяц',
               onTap: () {
                 onSelectedPage(PageType.month);
               },
             ),
             CustomTextButton(
-              currentPage: _currentPage,
-              selectedPage: PageType.search,
+              isSelected: _currentPage == PageType.search ? true : false,
               name: 'Поиск',
               onTap: () {
                 onSelectedPage(PageType.search);

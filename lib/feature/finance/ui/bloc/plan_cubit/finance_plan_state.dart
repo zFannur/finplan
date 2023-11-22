@@ -8,6 +8,8 @@ class FinancePlanState with _$FinancePlanState {
     @Default([])
     List<PlanEntity>? planList,
     @Default([])
+    List<PlanEntity>? statList,
+    @Default([])
     List<PlanEntity>? listExpense,
     @Default([])
     List<PlanEntity>? listIncome,
@@ -17,10 +19,10 @@ class FinancePlanState with _$FinancePlanState {
     List<PlanEntity>? listSince,
     @Default([])
     List<PlanEntity>? listHabit,
-    @Default({1,2,3,4,5,6,7,8,9,10,11,12})
-    Set<int> monthSet,
     @Default(1)
     int? selectMonth,
+    @Default(2023)
+    int? selectYear,
   }) = _FinancePlanState;
 
   factory FinancePlanState.fromJson(Map<String, dynamic> json) =>

@@ -38,37 +38,6 @@ class OperationPage extends StatelessWidget {
               ),
             ),
           ),
-          // Padding(
-          //   padding: AppPadding.top8,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: [
-          //       InkWell(
-          //         onTap: () {
-          //         },
-          //         child: Container(
-          //           padding: AppPadding.v10h40,
-          //           color: AppColors.greyDark,
-          //           child: const Text(
-          //             'Расход',
-          //             style: AppTextStyle.boldRed14,
-          //           ),
-          //         ),
-          //       ),
-          //       InkWell(
-          //         onTap: () {},
-          //         child: Container(
-          //           padding: AppPadding.v10h40,
-          //           color: AppColors.greyDark,
-          //           child: const Text(
-          //             'Доход',
-          //             style: AppTextStyle.boldGreen14,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           const Expanded(
             child: Padding(
               padding: AppPadding.top18,

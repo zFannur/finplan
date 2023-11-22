@@ -6,7 +6,7 @@ import '../../../../app/ui/theme/app_text_style.dart';
 import '../../../../app/ui/theme/consts.dart';
 
 class PlansPerCategory extends StatelessWidget {
-  final String name;
+  final PlanType name;
   final List<PlanEntity> listPlans;
 
   const PlansPerCategory({
@@ -36,7 +36,7 @@ class PlansPerCategory extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  name,
+                  name.toStr(),
                   style: AppTextStyle.medium14,
                 ),
               ),
@@ -52,6 +52,7 @@ class PlansPerCategory extends StatelessWidget {
                   style: AppTextStyle.boldGreen14,
                 ),
               ),
+              const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   '-$sumValue',
@@ -63,7 +64,10 @@ class PlansPerCategory extends StatelessWidget {
         ),
         Column(
           children: List.generate(listPlans.length, (index) {
-            final percent = (listPlans[index].sum - (listPlans[index].forecast ?? 0))/ listPlans[index].sum;
+            double percent = 0;
+            if(listPlans[index].sum > 0) {
+              percent = (listPlans[index].sum - (listPlans[index].fact ?? 0))/ listPlans[index].sum * 100;
+            }
 
             return Column(
               children: [
@@ -103,10 +107,11 @@ class PlansPerCategory extends StatelessWidget {
                             style: AppTextStyle.mediumBlack20,
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Expanded(
                           flex: 1,
                           child: Text(
-                            '${listPlans[index].forecast}',
+                            '${listPlans[index].fact}',
                             style: AppTextStyle.mediumBlack20,
                           ),
                         ),
@@ -146,6 +151,25 @@ extension DateTimeExtension on DateTime {
         return 'Вс';
       default:
         return 'Ошибка';
+    }
+  }
+}
+
+extension on PlanType {
+  String toStr() {
+    switch (this) {
+      case PlanType.expense:
+        return 'Расход';
+      case PlanType.income:
+        return 'Доход';
+      case PlanType.target:
+        return 'Цель';
+      case PlanType.since:
+        return 'Навык';
+      case PlanType.habit:
+        return 'Привычки';
+      default:
+        throw Exception(['Ошибка преобразования данных']);
     }
   }
 }

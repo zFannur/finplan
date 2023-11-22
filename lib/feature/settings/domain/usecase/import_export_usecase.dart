@@ -43,23 +43,29 @@ class ImportExportUseCase {
       allowedExtensions: ['csv'],
       type: FileType.custom,
     );
-    String path = result?.files.first.path ?? '';
-    final csvFile = File(path).openRead();
-    List<List<dynamic>> list = await csvFile
-        .transform(utf8.decoder)
-        .transform(const CsvToListConverter())
-        .toList();
-    return List.generate(
-        list.length,
-            (index) => OperationEntity(
-          id: list[index][0] ?? '',
-          date: list[index][1] ?? '',
-          type: list[index][2].toString().toType(),
-          category: list[index][3] ?? '',
-          sum: int.parse(list[index][4].toString()),
-          underCategory: list[index][5] ?? '',
-          note: list[index].length > 6 ? list[index][6] : '',
-        ));
+    String? path = result?.files.first.path;
+    if (path != null) {
+      final csvFile = File(path).openRead();
+      List<List<dynamic>> list = await csvFile
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+
+      return List.generate(
+          list.length,
+              (index) => OperationEntity(
+            id: list[index][0] ?? '',
+            date: list[index][1] ?? '',
+            type: list[index][2].toString().toType(),
+            category: list[index][3] ?? '',
+            sum: int.parse(list[index][4].toString()),
+            underCategory: list[index][5] ?? '',
+            note: list[index].length > 6 ? list[index][6] : '',
+          ));
+    } else {
+      return [];
+    }
+
   }
 }
 

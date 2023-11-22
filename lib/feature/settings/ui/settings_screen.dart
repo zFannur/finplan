@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:finplan/app/router/app_router.dart';
 import 'package:finplan/app/ui/components/app_bar.dart';
@@ -32,6 +31,7 @@ class SettingsScreen extends StatelessWidget {
               },
               child: const Text(
                 'Сохранить данные',
+                textAlign: TextAlign.center,
                 style: AppTextStyle.bold14,
               ),
             ),
@@ -41,41 +41,68 @@ class SettingsScreen extends StatelessWidget {
                     await context.read<SettingsCubit>().loadCsvFromStorage();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => Scaffold(
-                      appBar: AppBar(),
-                      body: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(data[index].id.toString()),
-                                Text(data[index].category),
-                                Text(data[index].underCategory),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      floatingActionButton: FloatingActionButton(
-                        onPressed: () {
-                          context.read<SettingsCubit>().saveData(data);
-                          context.read<OperationCubit>().getOperation();
-                          context.pushRoute(const FinanceRoute());
-                        },
-                        child: const Icon(Icons.save, color: AppColors.orange,),
-                      ),
-                    ),
+                    builder: (context) => _PreloadDataScreen(data: data),
                   ),
                 );
               },
               child: const Text(
                 'Загрузить данные',
+                textAlign: TextAlign.center,
                 style: AppTextStyle.bold14,
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PreloadDataScreen extends StatelessWidget {
+  final List<OperationEntity> data;
+
+  const _PreloadDataScreen({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const AppAppBar(
+        name: 'Содержание',
+        withSettings: false,
+      ),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  data[index].sum.toString(),
+                  style: AppTextStyle.medium14,
+                ),
+                Text(
+                  data[index].category,
+                  style: AppTextStyle.medium14,
+                ),
+                Text(
+                  data[index].underCategory,
+                  style: AppTextStyle.medium14,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.read<SettingsCubit>().saveData(data);
+          context.read<OperationCubit>().getOperation();
+          context.pushRoute(const FinanceRoute());
+        },
+        child: const Icon(
+          Icons.save,
+          color: AppColors.orange,
         ),
       ),
     );

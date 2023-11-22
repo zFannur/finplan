@@ -12,6 +12,7 @@ class PlanEntity with _$PlanEntity {
     required String category,
     required int sum,
     int? forecast,
+    int? fact,
   }) = _PlanEntity;
 
   factory PlanEntity.fromJson(Map<String, dynamic> json) =>

@@ -1,5 +1,6 @@
 import 'package:finplan/feature/finance/domain/plan_entity/plan_entity.dart';
 import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart';
+import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -29,18 +30,100 @@ class FinancePlanCubit extends HydratedCubit<FinancePlanState> {
     getPlan();
   }
 
+  void setYear(int index) {
+    emit(state.copyWith(
+      asyncSnapshot: const AsyncSnapshot.waiting(),
+      selectYear: index,
+    ));
+    getPlan();
+  }
+
   Future<void> calcParams(List<PlanEntity> planList) async {
     emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
     try {
-      //final operationList = await operationUseCase.getOperation();
-
       DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 
-      final monthSet = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+      //сортировка по месяцу и году
       final List<PlanEntity> planListFiltered = planList
           .where((element) =>
-              dateFormat.parse(element.date).month == state.selectMonth)
+              dateFormat.parse(element.date).month == state.selectMonth &&
+              dateFormat.parse(element.date).year == state.selectYear)
           .toList();
+
+      //получение операции и сортировка по месяцу и году
+      final operationList = (await operationUseCase.getOperation())
+          .where((element) =>
+              dateFormat.parse(element.date).month == state.selectMonth &&
+              dateFormat.parse(element.date).year == state.selectYear)
+          .toList();
+
+      //получение всех категорий
+      Set<String> categories = {};
+      for (var element in operationList) {
+        categories.add(element.category);
+      }
+
+      //сортировка статистики
+      final List<PlanEntity> statListFiltered = [];
+      for (var category in categories) {
+        int sumExpense = 0;
+        int sumIncome = 0;
+        int planValueExpense = 0;
+        int planValueIncome = 0;
+
+        for (var operation in operationList) {
+          if (category == operation.category &&
+              operation.type == TypeOperation.expense) {
+            sumExpense += operation.sum;
+          }
+          if (category == operation.category &&
+              operation.type == TypeOperation.income) {
+            sumIncome += operation.sum;
+          }
+          for (var plan in planListFiltered) {
+            if (plan.category == category && plan.type == PlanType.expense) {
+              planValueExpense = plan.sum;
+            }
+            if (plan.category == category && plan.type == PlanType.income) {
+              planValueIncome = plan.sum;
+            }
+          }
+        }
+
+        if (sumExpense != 0) {
+          statListFiltered.add(PlanEntity(
+            id: 1,
+            date: '',
+            type: PlanType.expense,
+            category: category,
+            sum: planValueExpense,
+            fact: sumExpense,
+          ));
+        }
+
+        if (sumIncome != 0) {
+          statListFiltered.add(PlanEntity(
+            id: 1,
+            date: '',
+            type: PlanType.income,
+            category: category,
+            sum: planValueIncome,
+            fact: sumIncome,
+          ));
+        }
+      }
+
+      //расчет факта
+      final List<PlanEntity> planListFilteredCalc = [];
+      for (var planElement in planListFiltered) {
+        int sumFact = 0;
+        for (var operation in operationList) {
+          if (planElement.category == operation.category) {
+            sumFact += operation.sum;
+          }
+        }
+        planListFilteredCalc.add(planElement.copyWith(fact: sumFact));
+      }
 
       List<PlanEntity> listExpense = [];
       List<PlanEntity> listIncome = [];
@@ -48,7 +131,7 @@ class FinancePlanCubit extends HydratedCubit<FinancePlanState> {
       List<PlanEntity> listSince = [];
       List<PlanEntity> listHabit = [];
 
-      planListFiltered.forEach((element) {
+      for (var element in planListFilteredCalc) {
         switch (element.type) {
           case PlanType.expense:
             listExpense.add(element);
@@ -61,11 +144,11 @@ class FinancePlanCubit extends HydratedCubit<FinancePlanState> {
           case PlanType.habit:
             listHabit.add(element);
         }
-      });
+      }
 
       emit(state.copyWith(
-          monthSet: monthSet,
-          planList: planListFiltered,
+          statList: statListFiltered,
+          planList: planListFilteredCalc,
           listExpense: listExpense,
           listIncome: listIncome,
           listTargets: listTarget,
