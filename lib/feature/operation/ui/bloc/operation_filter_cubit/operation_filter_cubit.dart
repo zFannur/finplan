@@ -77,6 +77,51 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
     }
   }
 
+  void filterOperationByMonth(int month, int year) async {
+    try {
+      emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
+
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+      Set<DateTime> setDate = {};
+
+      //get all date
+      for (int i = 0; i < operationList.length; i++) {
+        if (dateFormat.parse(operationList[i].date).month == month &&
+            dateFormat.parse(operationList[i].date).year == year) {
+          setDate.add(dateFormat.parse(operationList[i].date));
+        }
+      }
+      //sort by date
+      final list = setDate.toList();
+      list.sort((a, b) => b.compareTo(a));
+      setDate = list.toSet();
+
+      Map<DateTime, List<OperationEntity>> mapByDay =
+      <DateTime, List<OperationEntity>>{};
+      List<OperationEntity> listDay = [];
+
+      for (int s = 0; s < setDate.length; s++) {
+        listDay = [];
+        mapByDay[setDate.elementAt(s)] = [];
+        for (int i = 0; i < operationList.length; i++) {
+          if (dateFormat.parse(operationList[i].date) == setDate.elementAt(s)) {
+            listDay.add(operationList[i]);
+          }
+        }
+        mapByDay[setDate.elementAt(s)] = listDay;
+      }
+
+      emit(state.copyWith(
+          mapByMonth: mapByDay,
+          asyncSnapshot: const AsyncSnapshot.withData(
+            ConnectionState.done,
+            "Успешно",
+          )));
+    } catch (error) {
+      addError(error);
+    }
+  }
+
   void filterOperationSearch(String query) {
     try {
       emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));

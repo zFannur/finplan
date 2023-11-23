@@ -30,7 +30,6 @@ class _AppCategoryDialogState extends State<AppCategoryDialog> {
   void initState() {
     valueType = CategoryType.category;
     context.read<CategoriesCubit>().getUnloadedCategories(valueType);
-    //context.read<CategoriesCubit>().getAllCategories();
     super.initState();
   }
 

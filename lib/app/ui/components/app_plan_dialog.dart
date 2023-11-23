@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:finplan/app/const/app_local_data_keys.dart';
 import 'package:finplan/app/ui/theme/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,17 +29,17 @@ class AppPlanDialog extends StatefulWidget {
 class _AppPlanDialogState extends State<AppPlanDialog> {
   final TextEditingController controllerSum = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
-  late String valueType;
+  late PlanType valueType;
   String? selectedCategory;
 
   @override
   void initState() {
-    valueType = widget.planEntity?.type.toStr() ?? PlanType.expense.toStr();
+    valueType = widget.planEntity?.type ?? PlanType.expense;
     if (widget.planEntity != null) {
       controllerSum.text = widget.planEntity?.sum.toString() ?? "";
       selectedCategory = widget.planEntity?.category ?? "";
     }
-    context.read<CategoriesCubit>().getCategories(LocalDataConst.categoryKey);
+    context.read<CategoriesCubit>().getPlanCategories(valueType);
     super.initState();
   }
 
@@ -55,7 +54,7 @@ class _AppPlanDialogState extends State<AppPlanDialog> {
             padding: AppPadding.all16,
             child: Column(
               children: [
-                DropdownButton<String>(
+                DropdownButton<PlanType>(
                   //isExpanded: true,
                   iconSize: 24,
                   alignment: Alignment.center,
@@ -77,11 +76,12 @@ class _AppPlanDialogState extends State<AppPlanDialog> {
                       setState(() {
                         valueType = value;
                       });
+                      context.read<CategoriesCubit>().getPlanCategories(valueType);
                     }
                   },
-                  items: PlanType.values.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem<String>(
-                      value: value.toStr(),
+                  items: PlanType.values.map<DropdownMenuItem<PlanType>>((value) {
+                    return DropdownMenuItem<PlanType>(
+                      value: value,
                       child: Text(value.toStr()),
                     );
                   }).toList(),
@@ -181,7 +181,7 @@ class _AppPlanDialogState extends State<AppPlanDialog> {
                               date: DateTime.now()
                                   .copyWith(month: planCubit.state.selectMonth)
                                   .toString(),
-                              type: valueType.toType(),
+                              type: valueType,
                               category: selectedCategory!,
                               sum: int.parse(controllerSum.text),
                             ));
@@ -206,25 +206,6 @@ class _AppPlanDialogState extends State<AppPlanDialog> {
         ),
       ],
     );
-  }
-}
-
-extension on String {
-  PlanType toType() {
-    switch (this) {
-      case 'Расход':
-        return PlanType.expense;
-      case 'Доход':
-        return PlanType.income;
-      case 'Цели':
-        return PlanType.target;
-      case 'Навыки':
-        return PlanType.since;
-      case 'Привычки':
-        return PlanType.habit;
-      default:
-        throw Exception(['Ошибка преобразования данных']);
-    }
   }
 }
 

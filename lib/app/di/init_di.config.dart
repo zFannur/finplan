@@ -15,7 +15,7 @@ import 'package:finplan/app/data/main_app_config.dart' as _i7;
 import 'package:finplan/app/domain/app_categories_repository.dart' as _i4;
 import 'package:finplan/app/domain/app_config.dart' as _i6;
 import 'package:finplan/app/domain/state/categories/categories_cubit.dart'
-    as _i21;
+    as _i25;
 import 'package:finplan/feature/auth/data/auth_repository_impl.dart' as _i11;
 import 'package:finplan/feature/auth/data/firebase_auth_api.dart' as _i9;
 import 'package:finplan/feature/auth/domain/auth_api.dart' as _i8;
@@ -27,6 +27,8 @@ import 'package:finplan/feature/finance/data/plan_repository_impl.dart' as _i18;
 import 'package:finplan/feature/finance/domain/plan_repository.dart' as _i17;
 import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart'
     as _i19;
+import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart'
+    as _i21;
 import 'package:finplan/feature/operation/data/data_source/opeartion_local_data_source.dart'
     as _i12;
 import 'package:finplan/feature/operation/data/operation_repository_impl.dart'
@@ -136,8 +138,8 @@ extension GetItInjectableX on _i1.GetIt {
       },
     );
     gh.singleton<_i20.AuthCubit>(_i20.AuthCubit(gh<_i10.AuthRepository>()));
-    gh.singleton<_i21.CategoriesCubit>(_i21.CategoriesCubit(
-      gh<_i4.AppCategoriesRepository>(),
+    gh.singleton<_i21.FinancePlanCubit>(_i21.FinancePlanCubit(
+      gh<_i19.PlanUseCase>(),
       gh<_i15.OperationUseCase>(),
     ));
     gh.factory<_i22.ImportExportUseCase>(
@@ -152,6 +154,12 @@ extension GetItInjectableX on _i1.GetIt {
     gh.singleton<_i24.SettingsCubit>(_i24.SettingsCubit(
       gh<_i22.ImportExportUseCase>(),
       gh<_i15.OperationUseCase>(),
+    ));
+    gh.singleton<_i25.CategoriesCubit>(_i25.CategoriesCubit(
+      gh<_i4.AppCategoriesRepository>(),
+      gh<_i15.OperationUseCase>(),
+      gh<_i19.PlanUseCase>(),
+      gh<_i21.FinancePlanCubit>(),
     ));
     return this;
   }

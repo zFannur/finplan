@@ -8,6 +8,7 @@ class OperationFilterState with _$OperationFilterState {
     @Default([])
     List<OperationEntity>? operationList,
     Map<DateTime, List<OperationEntity>>? mapByDay,
+    Map<DateTime, List<OperationEntity>>? mapByMonth,
   }) = _OperationFilterState;
 
   factory OperationFilterState.fromJson(Map<String, dynamic> json) =>

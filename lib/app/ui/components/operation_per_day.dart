@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../app/domain/entities/category_entity.dart';
-import '../../../../app/domain/state/categories/categories_cubit.dart';
-import '../../../../app/router/app_router.dart';
-import '../../../../app/ui/theme/app_colors.dart';
-import '../../../../app/ui/theme/app_text_style.dart';
-import '../../../../app/ui/theme/consts.dart';
-import '../../domain/entities/operation_entity/operation_entity.dart';
-import '../bloc/operation_cubit/operation_cubit.dart';
+import '../../domain/entities/category_entity.dart';
+import '../../domain/state/categories/categories_cubit.dart';
+import '../../router/app_router.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_style.dart';
+import '../theme/consts.dart';
+import '../../../feature/operation/domain/entities/operation_entity/operation_entity.dart';
+import '../../../feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 
 class OperationsPerDay extends StatelessWidget {
   final DateTime date;

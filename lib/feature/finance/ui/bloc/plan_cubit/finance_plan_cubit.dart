@@ -5,7 +5,10 @@ import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../operation/ui/bloc/operation_filter_cubit/operation_filter_cubit.dart';
 
 part 'finance_plan_state.dart';
 
@@ -13,6 +16,7 @@ part 'finance_plan_cubit.freezed.dart';
 
 part 'finance_plan_cubit.g.dart';
 
+@Singleton()
 class FinancePlanCubit extends HydratedCubit<FinancePlanState> {
   final PlanUseCase planUseCase;
   final OperationUseCase operationUseCase;

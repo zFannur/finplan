@@ -10,7 +10,7 @@ import '../../../../app/domain/error_entity/error_entity.dart';
 import '../../../../app/ui/components/app_loader.dart';
 import '../../../../app/ui/components/app_snack_bar.dart';
 import '../../../../app/ui/theme/app_text_style.dart';
-import 'operation_per_day.dart';
+import '../../../../app/ui/components/operation_per_day.dart';
 
 enum PageType { all, week, month, search }
 

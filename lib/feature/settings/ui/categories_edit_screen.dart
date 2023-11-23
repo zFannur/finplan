@@ -16,6 +16,7 @@ class CategoriesEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoriesCubit = context.read<CategoriesCubit>();
     return Scaffold(
       appBar: const AppAppBar(
         name: 'Категории',
@@ -140,19 +141,17 @@ class CategoriesEditScreen extends StatelessWidget {
                 );
               }
             },
-            orElse: () => const Text(
-              'Что то пошло не так',
-              style: AppTextStyle.mediumRed20,
-            ),
+            orElse: () => const AppLoader(),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
+        onPressed: () async {
+          await showDialog(
             context: context,
             builder: (context) => const AppCategoryDialog(),
           );
+          categoriesCubit.getAllCategories();
         },
         child: const Icon(
           Icons.add,

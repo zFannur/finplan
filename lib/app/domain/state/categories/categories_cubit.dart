@@ -1,9 +1,13 @@
 import 'package:finplan/app/const/app_local_data_keys.dart';
 import 'package:finplan/app/domain/entities/category_entity.dart';
+import 'package:finplan/feature/finance/domain/plan_entity/plan_entity.dart';
+import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart';
+import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../feature/operation/domain/usecase/operation_usecase.dart';
 import '../../app_categories_repository.dart';
@@ -17,11 +21,15 @@ part 'categories_cubit.g.dart';
 @Singleton()
 class CategoriesCubit extends HydratedCubit<CategoriesState> {
   final OperationUseCase operationUseCase;
+  final PlanUseCase planUseCase;
   final AppCategoriesRepository repository;
+  final FinancePlanCubit financePlanCubit;
 
   CategoriesCubit(
     this.repository,
     this.operationUseCase,
+    this.planUseCase,
+    this.financePlanCubit,
   ) : super(const CategoriesState.loading());
 
   void getCategories(String key) async {
@@ -29,6 +37,49 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
       emit(const CategoriesState.loading());
       final categories = await repository.get(key);
       emit(CategoriesState.loaded(categories));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  void getPlanCategories(PlanType planType) async {
+    try {
+      emit(const CategoriesState.loading());
+
+      Set<String> categories = {};
+
+      switch (planType) {
+        case PlanType.expense:
+          categories =
+              (await repository.get(LocalDataConst.categoryKey)).toSet();
+        case PlanType.income:
+          categories =
+              (await repository.get(LocalDataConst.categoryKey)).toSet();
+        case PlanType.target:
+          categories = (await repository.get(LocalDataConst.targetKey)).toSet();
+        case PlanType.since:
+          categories = (await repository.get(LocalDataConst.sinceKey)).toSet();
+        case PlanType.habit:
+          categories = (await repository.get(LocalDataConst.habitKey)).toSet();
+      }
+
+      List<PlanEntity> planList = await planUseCase.getPlan();
+
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+
+      final List<PlanEntity> planListFiltered = planList
+          .where((element) =>
+              dateFormat.parse(element.date).month ==
+                  financePlanCubit.state.selectMonth &&
+              dateFormat.parse(element.date).year ==
+                  financePlanCubit.state.selectYear)
+          .toList();
+
+      for (var element in planListFiltered) {
+        categories.remove(element.category);
+      }
+
+      emit(CategoriesState.loaded(categories.toList()));
     } catch (error, st) {
       addError(error, st);
     }
@@ -57,9 +108,11 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
 
       switch (categoryType) {
         case CategoryType.category:
-          categories = (await repository.get(LocalDataConst.categoryKey)).toSet();
+          categories =
+              (await repository.get(LocalDataConst.categoryKey)).toSet();
         case CategoryType.underCategory:
-          categories = (await repository.get(LocalDataConst.underCategoryKey)).toSet();
+          categories =
+              (await repository.get(LocalDataConst.underCategoryKey)).toSet();
         case CategoryType.target:
         case CategoryType.since:
         case CategoryType.habit:

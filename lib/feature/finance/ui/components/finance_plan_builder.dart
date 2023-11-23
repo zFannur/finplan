@@ -15,14 +15,14 @@ class FinancePlanBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SelectPeriodPanel(
-            firstText: 'План',
-            secondText: 'Факт',
-          ),
-          BlocConsumer<FinancePlanCubit, FinancePlanState>(
+    return Column(
+      children: [
+        const SelectPeriodPanel(
+          firstText: 'План',
+          secondText: 'Факт',
+        ),
+        Expanded(
+          child: BlocConsumer<FinancePlanCubit, FinancePlanState>(
             listener: (context, state) {
               // if (state.asyncSnapshot?.hasData == true) {
               //   AppSnackBar.showSnackBarWithMessage(
@@ -46,29 +46,31 @@ class FinancePlanBuilder extends StatelessWidget {
 
               if (state.planList != null &&
                   (state.planList?.isNotEmpty == true)) {
-                return Column(
-                  children: [
-                    PlansPerCategory(
-                      name: PlanType.expense,
-                      listPlans: state.listExpense ?? [],
-                    ),
-                    PlansPerCategory(
-                      name: PlanType.income,
-                      listPlans: state.listIncome ?? [],
-                    ),
-                    PlansPerCategory(
-                      name: PlanType.target,
-                      listPlans: state.listTargets ?? [],
-                    ),
-                    PlansPerCategory(
-                      name: PlanType.since,
-                      listPlans: state.listSince ?? [],
-                    ),
-                    PlansPerCategory(
-                      name: PlanType.habit,
-                      listPlans: state.listHabit ?? [],
-                    ),
-                  ],
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      PlansPerCategory(
+                        name: PlanType.expense,
+                        listPlans: state.listExpense ?? [],
+                      ),
+                      PlansPerCategory(
+                        name: PlanType.income,
+                        listPlans: state.listIncome ?? [],
+                      ),
+                      PlansPerCategory(
+                        name: PlanType.target,
+                        listPlans: state.listTargets ?? [],
+                      ),
+                      PlansPerCategory(
+                        name: PlanType.since,
+                        listPlans: state.listSince ?? [],
+                      ),
+                      PlansPerCategory(
+                        name: PlanType.habit,
+                        listPlans: state.listHabit ?? [],
+                      ),
+                    ],
+                  ),
                 );
               }
 
@@ -80,8 +82,8 @@ class FinancePlanBuilder extends StatelessWidget {
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
