@@ -46,7 +46,7 @@ class FinanceStatisticPage extends StatelessWidget {
                     ConnectionState.waiting) {
                   return const AppLoader();
                 }
-
+                //вывести логику отсюда
                 if (state.statList != null &&
                     (state.statList?.isNotEmpty == true)) {
                   List<PlanEntity> listExpense = [];

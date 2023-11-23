@@ -1,5 +1,4 @@
 import 'package:finplan/app/di/init_di.dart';
-import 'package:finplan/app/domain/app_categories_repository.dart';
 import 'package:finplan/app/domain/state/categories/categories_cubit.dart';
 import 'package:finplan/app/ui/theme/theme.dart';
 import 'package:finplan/feature/auth/domain/auth_repository.dart';
@@ -51,9 +50,7 @@ class _GlobalProviders extends StatelessWidget {
                   locator.get<AuthRepository>(),
                 )),
         BlocProvider(
-            create: (context) => CategoriesCubit(
-                  locator.get<AppCategoriesRepository>(),
-                )),
+            create: (context) => locator.get<CategoriesCubit>()),
         BlocProvider(
             create: (context) => OperationFilterCubit(
                   locator.get<OperationCubit>(),

@@ -106,7 +106,7 @@ class CustomTextFormField extends StatelessWidget {
               ),
               BlocBuilder<CategoriesCubit, CategoriesState>(
                 builder: (context, state) {
-                  return state.when(
+                  return state.maybeWhen(
                     loaded: (List<dynamic> list) => Expanded(
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -139,6 +139,12 @@ class CustomTextFormField extends StatelessWidget {
                       error.toString(),
                       style: AppTextStyle.mediumRed20,
                     ),
+                    orElse: () {
+                      return const Text(
+                        'Что то пошло не так',
+                        style: AppTextStyle.bold24,
+                      );
+                    },
                   );
                 },
               ),

@@ -9,6 +9,8 @@ abstract class AppCategoriesLocalDataSource {
 
   Future<void> add(String category, String key);
 
+  Future<void> addList(List<String> selectedCategories, String key);
+
   Future<void> edit(String category, String key);
 
   Future<void> close();
@@ -83,5 +85,11 @@ class AppCategoriesLocalDataSourceImpl implements AppCategoriesLocalDataSource {
     }
 
     return index + 1;
+  }
+
+  @override
+  Future<void> addList(List<String> selectedCategories, String key) async {
+    final dataSource = getDataSource(key);
+    return dataSource.addList(selectedCategories.toList());
   }
 }

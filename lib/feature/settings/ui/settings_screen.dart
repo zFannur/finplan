@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/const/app_local_data_keys.dart';
 import 'package:finplan/app/router/app_router.dart';
 import 'package:finplan/app/ui/components/app_bar.dart';
 import 'package:finplan/app/ui/components/app_button.dart';
@@ -10,50 +11,81 @@ import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/domain/state/categories/categories_cubit.dart';
+
 @RoutePage()
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final categoryCubit = context.read<CategoriesCubit>();
+    final route = context.router;
     return Scaffold(
       appBar: const AppAppBar(
         name: 'Настройки',
         withSettings: false,
       ),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AppButton(
-              onPressed: () {
-                context.read<SettingsCubit>().saveToCsv();
-              },
-              child: const Text(
-                'Сохранить данные',
-                textAlign: TextAlign.center,
-                style: AppTextStyle.bold14,
-              ),
-            ),
-            AppButton(
-              onPressed: () async {
-                final List<OperationEntity> data =
-                    await context.read<SettingsCubit>().loadCsvFromStorage();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => _PreloadDataScreen(data: data),
-                  ),
-                );
-              },
-              child: const Text(
-                'Загрузить данные',
-                textAlign: TextAlign.center,
-                style: AppTextStyle.bold14,
-              ),
-            ),
+                isFixedSize: false,
+                onPressed: () {
+                  categoryCubit.getAllCategories();
+                  route.push(const CategoriesEditRoute());
+                },
+                child: const Text(
+                  'Редактировать категории',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.bold14,
+                )),
+            const ImportExportWidget(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ImportExportWidget extends StatelessWidget {
+  const ImportExportWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        AppButton(
+          isFixedSize: false,
+          onPressed: () {
+            context.read<SettingsCubit>().saveToCsv();
+          },
+          child: const Text(
+            'Сохранить данные',
+            textAlign: TextAlign.center,
+            style: AppTextStyle.bold14,
+          ),
+        ),
+        AppButton(
+          isFixedSize: false,
+          onPressed: () async {
+            final List<OperationEntity> data =
+                await context.read<SettingsCubit>().loadCsvFromStorage();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => _PreloadDataScreen(data: data),
+              ),
+            );
+          },
+          child: const Text(
+            'Загрузить данные',
+            textAlign: TextAlign.center,
+            style: AppTextStyle.bold14,
+          ),
+        ),
+      ],
     );
   }
 }

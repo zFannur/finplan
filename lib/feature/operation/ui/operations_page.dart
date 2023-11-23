@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/app/domain/entities/category_entity.dart';
 import 'package:finplan/app/ui/theme/app_icons.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
-import 'package:finplan/app/ui/theme/consts.dart';import 'package:flutter/material.dart';
+import 'package:finplan/app/ui/theme/consts.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/domain/state/categories/categories_cubit.dart';
@@ -48,18 +50,24 @@ class OperationPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.pushRoute(OperationDetailRoute(
-            buttonIcon: Icons.add,
-            onTap: (operationEntity) {
-              context.read<OperationCubit>().addOperation(operationEntity);
-              context.read<CategoriesCubit>().add(
-                category: operationEntity.category,
-                underCategory: operationEntity.underCategory,
-              );
-              context.popRoute();
-            },
-            title: 'Добавить',
-          ),);
+          context.pushRoute(
+            OperationDetailRoute(
+              buttonIcon: Icons.add,
+              onTap: (operationEntity) {
+                context.read<OperationCubit>().addOperation(operationEntity);
+                context.read<CategoriesCubit>().add(
+                      name: operationEntity.category,
+                      categoryType: CategoryType.category,
+                    );
+                context.read<CategoriesCubit>().add(
+                  name: operationEntity.category,
+                  categoryType: CategoryType.underCategory,
+                );
+                context.popRoute();
+              },
+              title: 'Добавить',
+            ),
+          );
         },
         child: AppIcons.add,
       ),

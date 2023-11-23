@@ -1,8 +1,11 @@
 import 'package:finplan/app/const/app_local_data_keys.dart';
+import 'package:finplan/app/domain/entities/category_entity.dart';
+import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../feature/operation/domain/usecase/operation_usecase.dart';
 import '../../app_categories_repository.dart';
 
 part 'categories_state.dart';
@@ -13,9 +16,13 @@ part 'categories_cubit.g.dart';
 
 @Singleton()
 class CategoriesCubit extends HydratedCubit<CategoriesState> {
+  final OperationUseCase operationUseCase;
   final AppCategoriesRepository repository;
 
-  CategoriesCubit(this.repository) : super(const CategoriesState.loading());
+  CategoriesCubit(
+    this.repository,
+    this.operationUseCase,
+  ) : super(const CategoriesState.loading());
 
   void getCategories(String key) async {
     try {
@@ -27,21 +34,109 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
     }
   }
 
+  Future<void> getAllCategories() async {
+    try {
+      emit(const CategoriesState.loading());
+      final category = await repository.get(LocalDataConst.categoryKey);
+      final underCategory =
+          await repository.get(LocalDataConst.underCategoryKey);
+      emit(CategoriesState.allLoaded(
+        category: category,
+        underCategory: underCategory,
+      ));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  void getUnloadedCategories(CategoryType categoryType) async {
+    try {
+      emit(const CategoriesState.loading());
+
+      Set<String> categories = {};
+
+      switch (categoryType) {
+        case CategoryType.category:
+          categories = (await repository.get(LocalDataConst.categoryKey)).toSet();
+        case CategoryType.underCategory:
+          categories = (await repository.get(LocalDataConst.underCategoryKey)).toSet();
+        case CategoryType.target:
+        case CategoryType.since:
+        case CategoryType.habit:
+      }
+
+      final List<OperationEntity> operationList =
+          await operationUseCase.getOperation();
+
+      //получение всех категорий
+      Set<String> categoriesOperations = {};
+
+      switch (categoryType) {
+        case CategoryType.category:
+          for (var element in operationList) {
+            categoriesOperations.add(element.category);
+          }
+        case CategoryType.underCategory:
+          for (var element in operationList) {
+            categoriesOperations.add(element.underCategory);
+          }
+        case CategoryType.target:
+        case CategoryType.since:
+        case CategoryType.habit:
+      }
+
+      categoriesOperations.removeAll(categories);
+
+      emit(CategoriesState.loaded(categoriesOperations.toList()));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
   Future<void> add({
-    String? category,
-    String? underCategory,
-    String? note,
+    required String name,
+    required CategoryType categoryType,
   }) async {
     try {
-      if (category != null) {
-        await repository.add(category, LocalDataConst.categoryKey);
+      switch (categoryType) {
+        case CategoryType.category:
+          await repository.add(name, LocalDataConst.categoryKey);
+        case CategoryType.underCategory:
+          await repository.add(name, LocalDataConst.underCategoryKey);
+        case CategoryType.target:
+          await repository.add(name, LocalDataConst.targetKey);
+        case CategoryType.since:
+          await repository.add(name, LocalDataConst.sinceKey);
+        case CategoryType.habit:
+          await repository.add(name, LocalDataConst.habitKey);
       }
-      if (underCategory != null) {
-        await repository.add(underCategory, LocalDataConst.underCategoryKey);
+      getAllCategories();
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  Future<void> addList({
+    required List<String> selectedCategories,
+    required CategoryType categoryType,
+  }) async {
+    try {
+      switch (categoryType) {
+        case CategoryType.category:
+          await repository.addList(
+            selectedCategories,
+            LocalDataConst.categoryKey,
+          );
+        case CategoryType.underCategory:
+          await repository.addList(
+            selectedCategories,
+            LocalDataConst.underCategoryKey,
+          );
+        case CategoryType.target:
+        case CategoryType.since:
+        case CategoryType.habit:
       }
-      if (note != null) {
-        await repository.add(note, LocalDataConst.noteKey);
-      }
+      getAllCategories();
     } catch (error, st) {
       addError(error, st);
     }
@@ -63,10 +158,10 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
     }
   }
 
-  Future<void> delete(
+  Future<void> delete({
     String? category,
     String? underCategory,
-  ) async {
+  }) async {
     try {
       if (category != null) {
         await repository.delete(category, LocalDataConst.categoryKey);
@@ -74,6 +169,7 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
       if (underCategory != null) {
         await repository.delete(underCategory, LocalDataConst.underCategoryKey);
       }
+      getAllCategories();
     } catch (error, st) {
       addError(error, st);
     }

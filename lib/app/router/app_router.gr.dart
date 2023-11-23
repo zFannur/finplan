@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthScreen(),
       );
     },
+    CategoriesEditRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CategoriesEditScreen(),
+      );
+    },
     FinancePlanRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -105,6 +111,20 @@ class AuthRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CategoriesEditScreen]
+class CategoriesEditRoute extends PageRouteInfo<void> {
+  const CategoriesEditRoute({List<PageRouteInfo>? children})
+      : super(
+          CategoriesEditRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoriesEditRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

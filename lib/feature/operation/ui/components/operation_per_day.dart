@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/domain/entities/category_entity.dart';
 import '../../../../app/domain/state/categories/categories_cubit.dart';
 import '../../../../app/router/app_router.dart';
 import '../../../../app/ui/theme/app_colors.dart';
@@ -89,10 +90,13 @@ class OperationsPerDay extends StatelessWidget {
                               .editOperation(operationEntity);
 
                           context.read<CategoriesCubit>().add(
-                                category: operationEntity.category,
-                                underCategory: operationEntity.underCategory,
-                                note: operationEntity.note,
-                              );
+                            name: operationEntity.category,
+                            categoryType: CategoryType.category,
+                          );
+                          context.read<CategoriesCubit>().add(
+                            name: operationEntity.category,
+                            categoryType: CategoryType.underCategory,
+                          );
                           context.popRoute();
                         },
                         title: 'Редактирование',

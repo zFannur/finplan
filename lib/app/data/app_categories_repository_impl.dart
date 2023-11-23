@@ -30,4 +30,9 @@ class AppCategoriesRepositoryImpl implements AppCategoriesRepository {
   Future<List<String>> get(String key) {
     return _localDataSource.get(key);
   }
+
+  @override
+  Future<void> addList(List<String> selectedCategories, String key) {
+    return _localDataSource.addList(selectedCategories, key);
+  }
 }

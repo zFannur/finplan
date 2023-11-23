@@ -1,0 +1,1 @@
+enum CategoryType {category, underCategory, target, since, habit}
