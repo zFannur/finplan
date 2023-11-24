@@ -32,11 +32,30 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
     this.financePlanCubit,
   ) : super(const CategoriesState.loading());
 
-  void getCategories(String key) async {
+  Future<void> getCategories(String key) async {
     try {
       emit(const CategoriesState.loading());
       final categories = await repository.get(key);
       emit(CategoriesState.loaded(categories));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  Future<void> searchCategories(String key, String name) async {
+    try {
+      emit(const CategoriesState.loading());
+      final List<String> filtered = [];
+
+      final categories = await repository.get(key);
+
+      for (final item in categories) {
+        if (item.toLowerCase().contains(name.toLowerCase())) {
+          filtered.add(item);
+        }
+      }
+
+      emit(CategoriesState.loaded(filtered));
     } catch (error, st) {
       addError(error, st);
     }
@@ -91,10 +110,21 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
       final category = await repository.get(LocalDataConst.categoryKey);
       final underCategory =
           await repository.get(LocalDataConst.underCategoryKey);
-      emit(CategoriesState.allLoaded(
-        category: category,
-        underCategory: underCategory,
-      ));
+      final target =
+      await repository.get(LocalDataConst.targetKey);
+      final since =
+      await repository.get(LocalDataConst.sinceKey);
+      final habit =
+      await repository.get(LocalDataConst.habitKey);
+      emit(
+        CategoriesState.allLoaded(
+          category: category,
+          underCategory: underCategory,
+          target: target,
+          since: since,
+          habit: habit,
+        ),
+      );
     } catch (error, st) {
       addError(error, st);
     }
@@ -212,15 +242,21 @@ class CategoriesCubit extends HydratedCubit<CategoriesState> {
   }
 
   Future<void> delete({
-    String? category,
-    String? underCategory,
+    required String name,
+    required CategoryType categoryType,
   }) async {
     try {
-      if (category != null) {
-        await repository.delete(category, LocalDataConst.categoryKey);
-      }
-      if (underCategory != null) {
-        await repository.delete(underCategory, LocalDataConst.underCategoryKey);
+      switch (categoryType) {
+        case CategoryType.category:
+          await repository.delete(name, LocalDataConst.categoryKey);
+        case CategoryType.underCategory:
+          await repository.delete(name, LocalDataConst.underCategoryKey);
+        case CategoryType.target:
+          await repository.delete(name, LocalDataConst.targetKey);
+        case CategoryType.since:
+          await repository.delete(name, LocalDataConst.sinceKey);
+        case CategoryType.habit:
+          await repository.delete(name, LocalDataConst.habitKey);
       }
       getAllCategories();
     } catch (error, st) {

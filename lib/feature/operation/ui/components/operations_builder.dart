@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../app/domain/error_entity/error_entity.dart';
 import '../../../../app/ui/components/app_loader.dart';
 import '../../../../app/ui/components/app_snack_bar.dart';
+import '../../../../app/ui/theme/app_colors.dart';
 import '../../../../app/ui/theme/app_text_style.dart';
 import '../../../../app/ui/components/operation_per_day.dart';
 
@@ -108,15 +109,42 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
               }
 
               if (state.mapByDay != null) {
-                return ListView.builder(
-                    itemCount: state.mapByDay!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return OperationsPerDay(
-                        date: state.mapByDay!.keys.elementAt(index),
-                        listOperations:
-                        state.mapByDay!.values.elementAt(index),
-                      );
-                    });
+                return Column(
+                  children: [
+                    Container(
+                      padding: AppPadding.v10h20,
+                      color: AppColors.greyDark,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Text(
+                            'Общая сумма',
+                            style: AppTextStyle.bold24,
+                          ),
+                          Text(
+                            '+${state.sumIncome}',
+                            style: AppTextStyle.boldGreen14,
+                          ),
+                          Text(
+                            '-${state.sumExpense}',
+                            style: AppTextStyle.boldRed14,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: state.mapByDay!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return OperationsPerDay(
+                              date: state.mapByDay!.keys.elementAt(index),
+                              listOperations:
+                              state.mapByDay!.values.elementAt(index),
+                            );
+                          }),
+                    ),
+                  ],
+                );
               }
 
               return const Text(

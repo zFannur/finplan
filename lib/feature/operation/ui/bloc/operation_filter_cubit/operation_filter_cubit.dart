@@ -54,6 +54,8 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       Map<DateTime, List<OperationEntity>> mapByDay =
           <DateTime, List<OperationEntity>>{};
       List<OperationEntity> listDay = [];
+      int sumExpense = 0;
+      int sumIncome = 0;
 
       for (int s = 0; s < setDate.length; s++) {
         listDay = [];
@@ -61,12 +63,20 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
         for (int i = 0; i < operationList.length; i++) {
           if (dateFormat.parse(operationList[i].date) == setDate.elementAt(s)) {
             listDay.add(operationList[i]);
+            //расчет полной суммы
+            if (operationList[i].type == TypeOperation.expense) {
+              sumExpense += operationList[i].sum;
+            } else {
+              sumIncome += operationList[i].sum;
+            }
           }
         }
         mapByDay[setDate.elementAt(s)] = listDay;
       }
 
       emit(state.copyWith(
+          sumExpense: sumExpense,
+          sumIncome: sumIncome,
           mapByDay: mapByDay,
           asyncSnapshot: const AsyncSnapshot.withData(
             ConnectionState.done,
@@ -97,8 +107,10 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       setDate = list.toSet();
 
       Map<DateTime, List<OperationEntity>> mapByDay =
-      <DateTime, List<OperationEntity>>{};
+          <DateTime, List<OperationEntity>>{};
       List<OperationEntity> listDay = [];
+      int sumExpense = 0;
+      int sumIncome = 0;
 
       for (int s = 0; s < setDate.length; s++) {
         listDay = [];
@@ -106,12 +118,21 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
         for (int i = 0; i < operationList.length; i++) {
           if (dateFormat.parse(operationList[i].date) == setDate.elementAt(s)) {
             listDay.add(operationList[i]);
+
+            //расчет полной суммы
+            if (operationList[i].type == TypeOperation.expense) {
+              sumExpense += operationList[i].sum;
+            } else {
+              sumIncome += operationList[i].sum;
+            }
           }
         }
         mapByDay[setDate.elementAt(s)] = listDay;
       }
 
       emit(state.copyWith(
+          sumExpense: sumExpense,
+          sumIncome: sumIncome,
           mapByMonth: mapByDay,
           asyncSnapshot: const AsyncSnapshot.withData(
             ConnectionState.done,
@@ -173,6 +194,8 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       Map<DateTime, List<OperationEntity>> mapByDay =
           <DateTime, List<OperationEntity>>{};
       List<OperationEntity> listDay = [];
+      int sumExpense = 0;
+      int sumIncome = 0;
 
       for (int s = 0; s < setDate.length; s++) {
         listDay = [];
@@ -180,12 +203,21 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
         for (int i = 0; i < searchList.length; i++) {
           if (dateFormat.parse(searchList[i].date) == setDate.elementAt(s)) {
             listDay.add(searchList[i]);
+
+            //расчет полной суммы
+            if (operationList[i].type == TypeOperation.expense) {
+              sumExpense += searchList[i].sum;
+            } else {
+              sumIncome += searchList[i].sum;
+            }
           }
         }
         mapByDay[setDate.elementAt(s)] = listDay;
       }
 
       emit(state.copyWith(
+          sumExpense: sumExpense,
+          sumIncome: sumIncome,
           mapByDay: mapByDay,
           asyncSnapshot: const AsyncSnapshot.withData(
             ConnectionState.done,

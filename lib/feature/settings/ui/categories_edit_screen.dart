@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:finplan/app/domain/entities/category_entity.dart';
 import 'package:finplan/app/domain/state/categories/categories_cubit.dart';
 import 'package:finplan/app/ui/components/app_bar.dart';
 import 'package:finplan/app/ui/components/app_loader.dart';
@@ -26,120 +27,55 @@ class CategoriesEditScreen extends StatelessWidget {
         builder: (context, state) {
           return state.maybeWhen(
             loading: () => const AppLoader(),
-            allLoaded: (category, underCategory) {
+            allLoaded: (category, underCategory, target, since, habit) {
               List<Widget> child = [];
-              if (category != null || underCategory != null) {
-                if (category != null) {
-                  child.add(
-                    Column(
-                      children: [
-                        Container(
-                          padding: AppPadding.all8,
-                          color: AppColors.greyDark,
-                          width: double.infinity,
-                          height: 50,
-                          child: const Text(
-                            'Категории',
-                            style: AppTextStyle.bold24,
-                          ),
-                        ),
-                        Column(
-                          children: List.generate(
-                            category.length,
-                            (index) => Container(
-                              margin: AppPadding.top8,
-                              padding: AppPadding.horizontal16,
-                              color: AppColors.grey,
-                              width: double.infinity,
-                              height: 40,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    category[index],
-                                    style: AppTextStyle.mediumBlack20,
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      context
-                                          .read<CategoriesCubit>()
-                                          .delete(category: category[index]);
-                                    },
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: AppColors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (underCategory != null) {
-                  child.add(
-                    Column(
-                      children: [
-                        Container(
-                          padding: AppPadding.all8,
-                          color: AppColors.greyDark,
-                          width: double.infinity,
-                          height: 50,
-                          child: const Text(
-                            'Под категории',
-                            style: AppTextStyle.bold24,
-                          ),
-                        ),
-                        Column(
-                          children: List.generate(
-                            underCategory.length,
-                            (index) => Container(
-                              margin: AppPadding.top8,
-                              padding: AppPadding.horizontal16,
-                              color: AppColors.grey,
-                              width: double.infinity,
-                              height: 40,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    underCategory[index],
-                                    style: AppTextStyle.mediumBlack20,
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        context.read<CategoriesCubit>().delete(
-                                            underCategory:
-                                                underCategory[index]);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: AppColors.red,
-                                      ))
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return ListView(
-                  children: child,
-                );
-              } else {
-                return const Text(
-                  'Нету категориев',
-                  style: AppTextStyle.bold24,
+              if (category != null) {
+                child.add(
+                  CategoryListWidget(
+                    list: category,
+                    categoryType: CategoryType.category,
+                  ),
                 );
               }
+
+              if (underCategory != null) {
+                child.add(
+                  CategoryListWidget(
+                    list: underCategory,
+                    categoryType: CategoryType.underCategory,
+                  ),
+                );
+              }
+
+              if (target != null) {
+                child.add(
+                  CategoryListWidget(
+                    list: target,
+                    categoryType: CategoryType.target,
+                  ),
+                );
+              }
+
+              if (since != null) {
+                child.add(
+                  CategoryListWidget(
+                    list: since,
+                    categoryType: CategoryType.since,
+                  ),
+                );
+              }
+
+              if (habit != null) {
+                child.add(
+                  CategoryListWidget(
+                    list: habit,
+                    categoryType: CategoryType.habit,
+                  ),
+                );
+              }
+              return ListView(
+                children: child,
+              );
             },
             orElse: () => const AppLoader(),
           );
@@ -159,5 +95,86 @@ class CategoriesEditScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CategoryListWidget extends StatelessWidget {
+  final CategoryType categoryType;
+  final List<dynamic> list;
+
+  const CategoryListWidget({
+    super.key,
+    required this.categoryType,
+    required this.list,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: AppPadding.all8,
+          color: AppColors.greyDark,
+          width: double.infinity,
+          height: 50,
+          child: Text(
+            categoryType.toStr(),
+            style: AppTextStyle.bold24,
+          ),
+        ),
+        Column(
+          children: List.generate(
+            list.length,
+            (index) => Container(
+              margin: AppPadding.top8,
+              padding: AppPadding.horizontal16,
+              color: AppColors.grey,
+              width: double.infinity,
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    list[index],
+                    style: AppTextStyle.mediumBlack20,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      context.read<CategoriesCubit>().delete(
+                            name: list[index],
+                            categoryType: categoryType,
+                          );
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: AppColors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+extension on CategoryType {
+  String toStr() {
+    switch (this) {
+      case CategoryType.category:
+        return 'Категории';
+      case CategoryType.underCategory:
+        return 'Подкатегории';
+      case CategoryType.target:
+        return 'Цели';
+      case CategoryType.since:
+        return 'Навыки';
+      case CategoryType.habit:
+        return 'Привычки';
+      default:
+        throw Exception(['Ошибка преобразования данных']);
+    }
   }
 }

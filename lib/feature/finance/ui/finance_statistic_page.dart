@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/domain/error_entity/error_entity.dart';
 import '../../../app/ui/components/app_loader.dart';
 import '../../../app/ui/components/app_snack_bar.dart';
+import '../../../app/ui/theme/app_colors.dart';
 import '../../../app/ui/theme/app_text_style.dart';
+import '../../../app/ui/theme/consts.dart';
 import '../../operation/ui/bloc/operation_filter_cubit/operation_filter_cubit.dart';
 import '../domain/plan_entity/plan_entity.dart';
 import 'bloc/plan_cubit/finance_plan_cubit.dart';
@@ -44,12 +46,10 @@ class FinanceStatisticPage extends StatelessWidget {
                 }
               },
               builder: (BuildContext context, state) {
-                context
-                    .read<OperationFilterCubit>()
-                    .filterOperationByMonth(
-                  state.selectMonth ?? 1,
-                  state.selectYear  ?? 2023,
-                );
+                context.read<OperationFilterCubit>().filterOperationByMonth(
+                      state.selectMonth ?? 1,
+                      state.selectYear ?? 2023,
+                    );
 
                 if (state.asyncSnapshot?.connectionState ==
                     ConnectionState.waiting) {
@@ -128,15 +128,41 @@ class FinanceStatisticPage extends StatelessWidget {
 
                             if (state.mapByMonth != null) {
                               return Column(
-                                children: List.generate(
-                                  state.mapByMonth!.length,
-                                  (index) => OperationsPerDay(
-                                    date:
-                                        state.mapByMonth!.keys.elementAt(index),
-                                    listOperations: state.mapByMonth!.values
-                                        .elementAt(index),
+                                children: [
+                                  Container(
+                                    padding: AppPadding.v10h20,
+                                    color: AppColors.greyDark,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        const Text(
+                                          'Общая сумма',
+                                          style: AppTextStyle.bold24,
+                                        ),
+                                        Text(
+                                          '+${state.sumIncome}',
+                                          style: AppTextStyle.boldGreen14,
+                                        ),
+                                        Text(
+                                          '-${state.sumExpense}',
+                                          style: AppTextStyle.boldRed14,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
+                                  Column(
+                                    children: List.generate(
+                                      state.mapByMonth!.length,
+                                      (index) => OperationsPerDay(
+                                        date: state.mapByMonth!.keys
+                                            .elementAt(index),
+                                        listOperations: state.mapByMonth!.values
+                                            .elementAt(index),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               );
                             }
 

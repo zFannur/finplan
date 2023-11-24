@@ -6,6 +6,10 @@ import '../../feature/auth/ui/auth_screen.dart';
 import '../../feature/auth/ui/login_screen.dart';
 import '../../feature/auth/ui/register_screen.dart';
 import '../../feature/auth/ui/user_screen.dart';
+import '../../feature/experience/ui/experience_screen.dart';
+import '../../feature/experience/ui/experience_statistic_page.dart';
+import '../../feature/experience/ui/habit_page.dart';
+import '../../feature/experience/ui/since_page.dart';
 import '../../feature/finance/ui/finance_screen.dart';
 import '../../feature/finance/ui/finance_statistic_page.dart';
 import '../../feature/operation/domain/entities/operation_entity/operation_entity.dart';
@@ -41,6 +45,26 @@ class AppRouter extends _$AppRouter {
         ),
       ],
     ),
+
+    AutoRoute(
+      page: ExperienceRoute.page,
+      path: '/experience',
+      children: [
+        AutoRoute(
+          page: HabitRoute.page,
+          path: 'habit',
+        ),
+        AutoRoute(
+          page: SinceRoute.page,
+          path: 'since',
+        ),
+        AutoRoute(
+          page: ExperienceStatisticRoute.page,
+          path: 'experience_statistic',
+        ),
+      ],
+    ),
+
     AutoRoute(
       page: OperationDetailRoute.page,
       path: '/operationDetail',

@@ -9,6 +9,9 @@ class CategoriesState with _$CategoriesState {
   const factory CategoriesState.allLoaded({
     List<dynamic>? category,
     List<dynamic>? underCategory,
+    List<dynamic>? target,
+    List<dynamic>? since,
+    List<dynamic>? habit,
   }) = _CategoriesStateAllLoaded;
 
   const factory CategoriesState.loading() = _CategoriesStateLoading;

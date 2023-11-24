@@ -1,8 +1,7 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:finplan/app/router/app_router.dart';
 import 'package:finplan/app/ui/components/app_auth_icon.dart';
-import 'package:finplan/feature/operation/ui/operations_page.dart';
+import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -25,28 +24,26 @@ class RootScreen extends StatelessWidget {
             onPressed: () {
               context.pushRoute(const FinanceRoute());
             },
-            child: Text(
+            child: const Text(
               'Финансы',
-              style: TextStyle(fontSize: 20),
+              style: AppTextStyle.bold24,
             ),
           ),
           TextButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (BuildContext context) => OperationPage()),
-              );
             },
-            child: Text(
+            child: const Text(
               'Тайм менеджмент',
-              style: TextStyle(fontSize: 20),
+              style: AppTextStyle.bold24,
             ),
           ),
           TextButton(
-            onPressed: () {},
-            child: Text(
-              'Навыки и привычки',
-              style: TextStyle(fontSize: 20),
+            onPressed: () {
+              context.pushRoute(const ExperienceRoute());
+            },
+            child: const Text(
+              'Опыт',
+              style: AppTextStyle.bold24,
             ),
           ),
         ],

@@ -99,8 +99,12 @@ class CustomTextFormField extends StatelessWidget {
                 child: AppTextField(
                   controller: controller,
                   labelText: labelText,
-                  onTap: () {
-                    controller.text = '';
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      context.read<CategoriesCubit>().getCategories(categoriesKey);
+                    } else {
+                      context.read<CategoriesCubit>().searchCategories(categoriesKey, value);
+                    }
                   },
                 ),
               ),

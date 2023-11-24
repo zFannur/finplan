@@ -27,6 +27,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CategoriesEditScreen(),
       );
     },
+    ExperienceRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ExperienceScreen(),
+      );
+    },
+    ExperienceStatisticRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ExperienceStatisticPage(),
+      );
+    },
     FinancePlanRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -43,6 +55,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const FinanceStatisticPage(),
+      );
+    },
+    HabitRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HabitPage(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -92,6 +110,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsScreen(),
       );
     },
+    SinceRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SincePage(),
+      );
+    },
     UserRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -125,6 +149,34 @@ class CategoriesEditRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CategoriesEditRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ExperienceScreen]
+class ExperienceRoute extends PageRouteInfo<void> {
+  const ExperienceRoute({List<PageRouteInfo>? children})
+      : super(
+          ExperienceRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ExperienceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ExperienceStatisticPage]
+class ExperienceStatisticRoute extends PageRouteInfo<void> {
+  const ExperienceStatisticRoute({List<PageRouteInfo>? children})
+      : super(
+          ExperienceStatisticRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ExperienceStatisticRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -167,6 +219,20 @@ class FinanceStatisticRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FinanceStatisticRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HabitPage]
+class HabitRoute extends PageRouteInfo<void> {
+  const HabitRoute({List<PageRouteInfo>? children})
+      : super(
+          HabitRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HabitRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -319,6 +385,20 @@ class SettingsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SincePage]
+class SinceRoute extends PageRouteInfo<void> {
+  const SinceRoute({List<PageRouteInfo>? children})
+      : super(
+          SinceRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SinceRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
