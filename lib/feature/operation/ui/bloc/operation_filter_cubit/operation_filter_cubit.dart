@@ -35,6 +35,10 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
     });
   }
 
+  void loadingFilterState() {
+    emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
+  }
+
   void filterOperationByDay() async {
     try {
       emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
