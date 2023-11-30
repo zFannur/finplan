@@ -57,6 +57,19 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FinanceStatisticPage(),
       );
     },
+    HabitDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<HabitDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: HabitDetailScreen(
+          key: args.key,
+          buttonIcon: args.buttonIcon,
+          onTap: args.onTap,
+          title: args.title,
+          habitEntity: args.habitEntity,
+        ),
+      );
+    },
     HabitRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -221,6 +234,59 @@ class FinanceStatisticRoute extends PageRouteInfo<void> {
   static const String name = 'FinanceStatisticRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HabitDetailScreen]
+class HabitDetailRoute extends PageRouteInfo<HabitDetailRouteArgs> {
+  HabitDetailRoute({
+    Key? key,
+    required IconData buttonIcon,
+    required dynamic Function(HabitEntity) onTap,
+    required String title,
+    HabitEntity? habitEntity,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HabitDetailRoute.name,
+          args: HabitDetailRouteArgs(
+            key: key,
+            buttonIcon: buttonIcon,
+            onTap: onTap,
+            title: title,
+            habitEntity: habitEntity,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'HabitDetailRoute';
+
+  static const PageInfo<HabitDetailRouteArgs> page =
+      PageInfo<HabitDetailRouteArgs>(name);
+}
+
+class HabitDetailRouteArgs {
+  const HabitDetailRouteArgs({
+    this.key,
+    required this.buttonIcon,
+    required this.onTap,
+    required this.title,
+    this.habitEntity,
+  });
+
+  final Key? key;
+
+  final IconData buttonIcon;
+
+  final dynamic Function(HabitEntity) onTap;
+
+  final String title;
+
+  final HabitEntity? habitEntity;
+
+  @override
+  String toString() {
+    return 'HabitDetailRouteArgs{key: $key, buttonIcon: $buttonIcon, onTap: $onTap, title: $title, habitEntity: $habitEntity}';
+  }
 }
 
 /// generated route for

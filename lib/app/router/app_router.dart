@@ -6,8 +6,10 @@ import '../../feature/auth/ui/auth_screen.dart';
 import '../../feature/auth/ui/login_screen.dart';
 import '../../feature/auth/ui/register_screen.dart';
 import '../../feature/auth/ui/user_screen.dart';
+import '../../feature/experience/domain/entity/habit_entity.dart';
 import '../../feature/experience/ui/experience_screen.dart';
 import '../../feature/experience/ui/experience_statistic_page.dart';
+import '../../feature/experience/ui/habit_detail_screen.dart';
 import '../../feature/experience/ui/habit_page.dart';
 import '../../feature/experience/ui/since_page.dart';
 import '../../feature/finance/ui/finance_screen.dart';
@@ -68,6 +70,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       page: OperationDetailRoute.page,
       path: '/operationDetail',
+    ),
+    AutoRoute(
+      page: HabitDetailRoute.page,
+      path: '/habitDetail',
     ),
     AutoRoute(
       page: LoginRoute.page,
