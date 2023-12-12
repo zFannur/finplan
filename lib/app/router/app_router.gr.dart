@@ -63,9 +63,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: HabitDetailScreen(
           key: args.key,
-          buttonIcon: args.buttonIcon,
           onTap: args.onTap,
-          title: args.title,
           habitEntity: args.habitEntity,
         ),
       );
@@ -241,18 +239,14 @@ class FinanceStatisticRoute extends PageRouteInfo<void> {
 class HabitDetailRoute extends PageRouteInfo<HabitDetailRouteArgs> {
   HabitDetailRoute({
     Key? key,
-    required IconData buttonIcon,
     required dynamic Function(HabitEntity) onTap,
-    required String title,
     HabitEntity? habitEntity,
     List<PageRouteInfo>? children,
   }) : super(
           HabitDetailRoute.name,
           args: HabitDetailRouteArgs(
             key: key,
-            buttonIcon: buttonIcon,
             onTap: onTap,
-            title: title,
             habitEntity: habitEntity,
           ),
           initialChildren: children,
@@ -267,25 +261,19 @@ class HabitDetailRoute extends PageRouteInfo<HabitDetailRouteArgs> {
 class HabitDetailRouteArgs {
   const HabitDetailRouteArgs({
     this.key,
-    required this.buttonIcon,
     required this.onTap,
-    required this.title,
     this.habitEntity,
   });
 
   final Key? key;
 
-  final IconData buttonIcon;
-
   final dynamic Function(HabitEntity) onTap;
-
-  final String title;
 
   final HabitEntity? habitEntity;
 
   @override
   String toString() {
-    return 'HabitDetailRouteArgs{key: $key, buttonIcon: $buttonIcon, onTap: $onTap, title: $title, habitEntity: $habitEntity}';
+    return 'HabitDetailRouteArgs{key: $key, onTap: $onTap, habitEntity: $habitEntity}';
   }
 }
 

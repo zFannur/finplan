@@ -10,4 +10,5 @@ class LocalDataConst {
 
   static const operationTypeId = 0;
   static const planTypeId = 1;
+  static const habitTypeId = 2;
 }

@@ -15,33 +15,39 @@ import 'package:finplan/app/data/main_app_config.dart' as _i7;
 import 'package:finplan/app/domain/app_categories_repository.dart' as _i4;
 import 'package:finplan/app/domain/app_config.dart' as _i6;
 import 'package:finplan/app/domain/state/categories/categories_cubit.dart'
-    as _i25;
+    as _i28;
 import 'package:finplan/feature/auth/data/auth_repository_impl.dart' as _i11;
 import 'package:finplan/feature/auth/data/firebase_auth_api.dart' as _i9;
 import 'package:finplan/feature/auth/domain/auth_api.dart' as _i8;
 import 'package:finplan/feature/auth/domain/auth_repository.dart' as _i10;
-import 'package:finplan/feature/auth/domain/auth_state/auth_cubit.dart' as _i20;
-import 'package:finplan/feature/finance/data/data_source/plan_local_data_source.dart'
-    as _i16;
-import 'package:finplan/feature/finance/data/plan_repository_impl.dart' as _i18;
-import 'package:finplan/feature/finance/domain/plan_repository.dart' as _i17;
-import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart'
-    as _i19;
-import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart'
-    as _i21;
-import 'package:finplan/feature/operation/data/data_source/opeartion_local_data_source.dart'
+import 'package:finplan/feature/auth/domain/auth_state/auth_cubit.dart' as _i23;
+import 'package:finplan/feature/experience/data/data_source/habit_local_data_source.dart'
     as _i12;
-import 'package:finplan/feature/operation/data/operation_repository_impl.dart'
+import 'package:finplan/feature/experience/data/habit_repository_impl.dart'
     as _i14;
-import 'package:finplan/feature/operation/domain/operation_repository.dart'
+import 'package:finplan/feature/experience/domain/habit_repository.dart'
     as _i13;
-import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart'
-    as _i15;
-import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart'
-    as _i23;
-import 'package:finplan/feature/settings/domain/usecase/import_export_usecase.dart'
+import 'package:finplan/feature/finance/data/data_source/plan_local_data_source.dart'
+    as _i19;
+import 'package:finplan/feature/finance/data/plan_repository_impl.dart' as _i21;
+import 'package:finplan/feature/finance/domain/plan_repository.dart' as _i20;
+import 'package:finplan/feature/finance/domain/usecase/plan_usecase.dart'
     as _i22;
-import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart' as _i24;
+import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart'
+    as _i24;
+import 'package:finplan/feature/operation/data/data_source/opeartion_local_data_source.dart'
+    as _i15;
+import 'package:finplan/feature/operation/data/operation_repository_impl.dart'
+    as _i17;
+import 'package:finplan/feature/operation/domain/operation_repository.dart'
+    as _i16;
+import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart'
+    as _i18;
+import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart'
+    as _i26;
+import 'package:finplan/feature/settings/domain/usecase/import_export_usecase.dart'
+    as _i25;
+import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart' as _i27;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
@@ -95,71 +101,85 @@ extension GetItInjectableX on _i1.GetIt {
         _dev,
       },
     );
-    gh.factory<_i12.OperationLocalDataSource>(
-      () => _i12.AOperationLocalDataSourceImpl(),
+    gh.factory<_i12.HabitLocalDataSource>(
+      () => _i12.HabitLocalDataSourceImpl(),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.factory<_i13.OperationRepository>(
-      () => _i14.OperationRepositoryImpl(gh<_i12.OperationLocalDataSource>()),
+    gh.factory<_i13.HabitRepository>(
+      () => _i14.HabitRepositoryImpl(gh<_i12.HabitLocalDataSource>()),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.factory<_i15.OperationUseCase>(
-      () => _i15.OperationUseCaseImpl(gh<_i13.OperationRepository>()),
+    gh.factory<_i15.OperationLocalDataSource>(
+      () => _i15.AOperationLocalDataSourceImpl(),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.factory<_i16.PlanLocalDataSource>(
-      () => _i16.PlanLocalDataSourceImpl(),
+    gh.factory<_i16.OperationRepository>(
+      () => _i17.OperationRepositoryImpl(gh<_i15.OperationLocalDataSource>()),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.factory<_i17.PlanRepository>(
-      () => _i18.PlanRepositoryImpl(gh<_i16.PlanLocalDataSource>()),
+    gh.factory<_i18.OperationUseCase>(
+      () => _i18.OperationUseCaseImpl(gh<_i16.OperationRepository>()),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.factory<_i19.PlanUseCase>(
-      () => _i19.PlanUseCaseImpl(gh<_i17.PlanRepository>()),
+    gh.factory<_i19.PlanLocalDataSource>(
+      () => _i19.PlanLocalDataSourceImpl(),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.singleton<_i20.AuthCubit>(_i20.AuthCubit(gh<_i10.AuthRepository>()));
-    gh.singleton<_i21.FinancePlanCubit>(_i21.FinancePlanCubit(
-      gh<_i19.PlanUseCase>(),
-      gh<_i15.OperationUseCase>(),
+    gh.factory<_i20.PlanRepository>(
+      () => _i21.PlanRepositoryImpl(gh<_i19.PlanLocalDataSource>()),
+      registerFor: {
+        _prod,
+        _dev,
+      },
+    );
+    gh.factory<_i22.PlanUseCase>(
+      () => _i22.PlanUseCaseImpl(gh<_i20.PlanRepository>()),
+      registerFor: {
+        _prod,
+        _dev,
+      },
+    );
+    gh.singleton<_i23.AuthCubit>(_i23.AuthCubit(gh<_i10.AuthRepository>()));
+    gh.singleton<_i24.FinancePlanCubit>(_i24.FinancePlanCubit(
+      gh<_i22.PlanUseCase>(),
+      gh<_i18.OperationUseCase>(),
     ));
-    gh.factory<_i22.ImportExportUseCase>(
-      () => _i22.ImportExportUseCase(gh<_i15.OperationUseCase>()),
+    gh.factory<_i25.ImportExportUseCase>(
+      () => _i25.ImportExportUseCase(gh<_i18.OperationUseCase>()),
       registerFor: {
         _prod,
         _dev,
       },
     );
-    gh.singleton<_i23.OperationCubit>(
-        _i23.OperationCubit(gh<_i15.OperationUseCase>()));
-    gh.singleton<_i24.SettingsCubit>(_i24.SettingsCubit(
-      gh<_i22.ImportExportUseCase>(),
-      gh<_i15.OperationUseCase>(),
+    gh.singleton<_i26.OperationCubit>(
+        _i26.OperationCubit(gh<_i18.OperationUseCase>()));
+    gh.singleton<_i27.SettingsCubit>(_i27.SettingsCubit(
+      gh<_i25.ImportExportUseCase>(),
+      gh<_i18.OperationUseCase>(),
     ));
-    gh.singleton<_i25.CategoriesCubit>(_i25.CategoriesCubit(
+    gh.singleton<_i28.CategoriesCubit>(_i28.CategoriesCubit(
       gh<_i4.AppCategoriesRepository>(),
-      gh<_i15.OperationUseCase>(),
-      gh<_i19.PlanUseCase>(),
-      gh<_i21.FinancePlanCubit>(),
+      gh<_i18.OperationUseCase>(),
+      gh<_i22.PlanUseCase>(),
+      gh<_i24.FinancePlanCubit>(),
     ));
     return this;
   }

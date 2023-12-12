@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
+import '../../../../app/const/app_local_data_keys.dart';
 
 part 'operation_hive.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: LocalDataConst.operationTypeId)
 class OperationHive {
   @HiveField(0)
   final int id;

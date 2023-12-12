@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:finplan/app/const/app_local_data_keys.dart';
 import 'package:finplan/app/router/app_router.dart';
 import 'package:finplan/app/ui/components/app_bar.dart';
 import 'package:finplan/app/ui/components/app_button.dart';
 import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
+import 'package:finplan/feature/experience/ui/bloc/habit_cubit/habit_cubit.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
 import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart';
@@ -20,6 +20,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryCubit = context.read<CategoriesCubit>();
+    final habitCubit = context.read<HabitCubit>();
     final route = context.router;
     return Scaffold(
       appBar: const AppAppBar(
@@ -42,6 +43,17 @@ class SettingsScreen extends StatelessWidget {
                   style: AppTextStyle.bold14,
                 )),
             const ImportExportWidget(),
+            AppButton(
+                isFixedSize: false,
+                onPressed: () {
+                  habitCubit.clearHabit();
+                  habitCubit.getHabit();
+                },
+                child: const Text(
+                  'Удалить все привычки',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.bold14,
+                )),
           ],
         ),
       ),

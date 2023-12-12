@@ -1,8 +1,10 @@
 import 'package:hive/hive.dart';
 
+import '../../../../app/const/app_local_data_keys.dart';
+
 part 'plan_hive.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: LocalDataConst.planTypeId)
 class PlanHive {
   @HiveField(0)
   final String type;

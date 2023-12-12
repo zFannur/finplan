@@ -5,7 +5,14 @@ import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:finplan/app/ui/theme/app_icons.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:finplan/app/ui/theme/consts.dart';
+import 'package:finplan/feature/experience/domain/entity/habit_entity.dart';
+import 'package:finplan/feature/experience/ui/bloc/habit_cubit/habit_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../app/domain/error_entity/error_entity.dart';
+import '../../../app/ui/components/app_loader.dart';
+import '../../../app/ui/components/app_snack_bar.dart';
 
 @RoutePage()
 class HabitPage extends StatelessWidget {
@@ -14,22 +21,56 @@ class HabitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.separated(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return HabitItemWidget();
-        }, separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(height: 4);
-      },
+      body: BlocConsumer<HabitCubit, HabitState>(
+        listener: (context, state) {
+          // if (state.asyncSnapshot?.hasData == true) {
+          //   AppSnackBar.showSnackBarWithMessage(
+          //     context,
+          //     state.asyncSnapshot?.data,
+          //   );
+          // }
+
+          if (state.asyncSnapshot?.hasError == true) {
+            AppSnackBar.showSnackBarWithError(
+              context,
+              ErrorEntity.fromException(state.asyncSnapshot?.error),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state.asyncSnapshot?.connectionState == ConnectionState.waiting) {
+            return const AppLoader();
+          }
+
+          if (state.habitList?.isNotEmpty == true) {
+            return ListView.separated(
+              itemCount: state.habitList!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return HabitItemWidget(
+                  habit: state.habitList![index],
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 4);
+              },
+            );
+          }
+
+          return const Center(
+            child: Text(
+              "Нету привычек",
+              style: AppTextStyle.bold24,
+            ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: '1',
         onPressed: () {
           context.pushRoute(
             HabitDetailRoute(
-              buttonIcon: Icons.add,
-              onTap: (operationEntity) {
-                // context.read<OperationCubit>().addOperation(operationEntity);
+              onTap: (habit) {
+                context.read<HabitCubit>().addHabit(habit);
                 // context.read<CategoriesCubit>().add(
                 //       name: operationEntity.category,
                 //       categoryType: CategoryType.category,
@@ -38,9 +79,8 @@ class HabitPage extends StatelessWidget {
                 //       name: operationEntity.category,
                 //       categoryType: CategoryType.underCategory,
                 //     );
-                // context.popRoute();
+                context.popRoute();
               },
-              title: 'Добавить',
             ),
           );
         },
@@ -51,7 +91,12 @@ class HabitPage extends StatelessWidget {
 }
 
 class HabitItemWidget extends StatelessWidget {
-  const HabitItemWidget({super.key});
+  final HabitEntity habit;
+
+  const HabitItemWidget({
+    super.key,
+    required this.habit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -87,30 +132,30 @@ class HabitItemWidget extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Пить воду',
+                            Text(
+                              habit.name,
                               style: AppTextStyle.medium20,
                             ),
                             Container(
                               padding: AppPadding.horizontal16,
                               color: AppColors.redShade100,
                               child: const Text(
-                                'Цель',
+                                'зависимость',
                                 style: AppTextStyle.medium14,
                               ),
                             )
                           ],
                         ),
-                        const Row(
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Повторов: 3',
+                              'Повторов: ${habit.repeatsDay}',
                               style: AppTextStyle.medium14,
                             ),
                             Text(
-                              'Выполнено: 1',
+                              'Выполнено: ${habit.repeatsDay}',
                               style: AppTextStyle.medium14,
                             ),
                           ],

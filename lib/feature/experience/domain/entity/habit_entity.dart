@@ -8,10 +8,11 @@ class HabitEntity with _$HabitEntity {
   const factory HabitEntity({
     required int id,
     required String name,
-    required String why,
+    required String triggers,
+    required String awards,
+    required String motivation,
     required int repeatsDay,
     required int duration,
-    required String category,
   }) = _HabitEntity;
 
   factory HabitEntity.fromJson(Map<String, dynamic> json) =>
