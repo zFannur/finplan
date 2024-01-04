@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:finplan/feature/operation/ui/bloc/operation_filter_cubit/operation_filter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +10,6 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
 import '../theme/consts.dart';
 import '../../../feature/operation/domain/entities/operation_entity/operation_entity.dart';
-import '../../../feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 
 class OperationsPerDay extends StatelessWidget {
   final DateTime date;
@@ -86,7 +86,7 @@ class OperationsPerDay extends StatelessWidget {
                         buttonIcon: Icons.edit,
                         onTap: (operationEntity) {
                           context
-                              .read<OperationCubit>()
+                              .read<OperationFilterCubit>()
                               .editOperation(operationEntity);
 
                           context.read<CategoriesCubit>().add(

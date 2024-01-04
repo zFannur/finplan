@@ -45,7 +45,7 @@ class _OperationsBuilderState extends State<OperationsBuilder> {
               onTap: () {
                 if (_currentPage == PageType.all) return;
                 onSelectedPage(PageType.all);
-                context.read<OperationCubit>().getOperation();
+                context.read<OperationFilterCubit>().filterOperationByDay();
               },
             ),
             CustomTextButton(

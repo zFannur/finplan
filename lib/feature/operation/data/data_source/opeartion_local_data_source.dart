@@ -19,7 +19,7 @@ abstract class OperationLocalDataSource {
 
   Future<void> addListOperations(List<OperationEntity> operations);
 
-  int getNewId();
+  Future<int> getNewId();
 }
 
 @Injectable(as: OperationLocalDataSource)
@@ -54,9 +54,9 @@ class AOperationLocalDataSourceImpl implements OperationLocalDataSource {
   }
 
   @override
-  int getNewId() {
+  Future<int> getNewId() async {
     int oldValue = 0;
-    final box = _dataSource.getBox();
+    final box = await _dataSource.openBox();
     if (box != null) {
       final result = box.values.toList();
 

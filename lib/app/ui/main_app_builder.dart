@@ -6,6 +6,7 @@ import 'package:finplan/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:finplan/feature/experience/domain/habit_repository.dart';
 import 'package:finplan/feature/experience/ui/bloc/habit_cubit/habit_cubit.dart';
 import 'package:finplan/feature/finance/ui/bloc/plan_cubit/finance_plan_cubit.dart';
+import 'package:finplan/feature/operation/domain/usecase/operation_usecase.dart';
 import 'package:finplan/feature/operation/ui/bloc/operation_filter_cubit/operation_filter_cubit.dart';
 import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +52,8 @@ class _GlobalProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => locator.get<SettingsCubit>()),
-        BlocProvider(
-            create: (context) => locator.get<OperationCubit>()..getOperation()),
+        // BlocProvider(
+        //     create: (context) => locator.get<OperationCubit>()..getOperation()),
         BlocProvider(
             create: (context) => AuthCubit(
                   locator.get<AuthRepository>(),
@@ -60,7 +61,7 @@ class _GlobalProviders extends StatelessWidget {
         BlocProvider(create: (context) => locator.get<CategoriesCubit>()),
         BlocProvider(
             create: (context) => OperationFilterCubit(
-                  locator.get<OperationCubit>(),
+                  locator.get<OperationUseCase>(),
                 )),
         BlocProvider(
           create: (context) => locator.get<FinancePlanCubit>()..getPlan(),

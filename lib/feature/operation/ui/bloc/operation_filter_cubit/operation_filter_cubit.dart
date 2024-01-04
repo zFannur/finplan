@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
-import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/intl.dart';
+
+import '../../../domain/usecase/operation_usecase.dart';
 
 part 'operation_filter_state.dart';
 
@@ -14,34 +15,67 @@ part 'operation_filter_cubit.freezed.dart';
 part 'operation_filter_cubit.g.dart';
 
 class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
-  final OperationCubit operationCubit;
-  late final StreamSubscription operationSubscription;
-  late List<OperationEntity> operationList;
+  final OperationUseCase operationUseCase;
 
-  OperationFilterCubit(this.operationCubit)
+  OperationFilterCubit(this.operationUseCase)
       : super(
           const OperationFilterState(asyncSnapshot: AsyncSnapshot.nothing()),
-        ) {
-    operationCubit.getOperation();
-    operationSubscription = operationCubit.stream.listen((event) {
-      event.mapOrNull(
-        loaded: (value) => operationCubit.state.whenOrNull(
-          loaded: (list) {
-            operationList = list;
-            filterOperationByDay();
-          },
-        ),
-      );
-    });
+        );
+
+  Future<void> getOperation() async {
+    loadingFilterState();
+    try {
+      final operationList = await operationUseCase.getOperation();
+      emit(state.copyWith(
+          asyncSnapshot: const AsyncSnapshot.withData(
+            ConnectionState.done,
+            "Успешно",
+          ),
+          operationList: operationList));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  Future<void> addOperation(OperationEntity operationEntity) async {
+    try {
+      final operationList =
+          await operationUseCase.addOperation(operationEntity);
+      emit(state.copyWith(operationList: operationList));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  Future<void> editOperation(OperationEntity operationEntity) async {
+    try {
+      final operationList =
+          await operationUseCase.editOperation(operationEntity);
+      emit(state.copyWith(operationList: operationList));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  Future<void> deleteOperation(OperationEntity operationEntity) async {
+    try {
+      final operationList =
+          await operationUseCase.deleteOperation(operationEntity);
+      emit(state.copyWith(operationList: operationList));
+    } catch (error, st) {
+      addError(error, st);
+    }
   }
 
   void loadingFilterState() {
     emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
   }
 
-  void filterOperationByDay() async {
+  Future<void> filterOperationByDay() async {
     try {
       emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
+      await getOperation();
+      final operationList = state.operationList ?? [];
 
       DateFormat dateFormat = DateFormat("yyyy-MM-dd");
       Set<DateTime> setDate = {};
@@ -91,9 +125,12 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
     }
   }
 
-  void filterOperationByMonth(int month, int year) async {
+  Future<void> filterOperationByMonth(int month, int year) async {
     try {
       emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
+
+      await getOperation();
+      final operationList = state.operationList ?? [];
 
       DateFormat dateFormat = DateFormat("yyyy-MM-dd");
       Set<DateTime> setDate = {};
@@ -147,9 +184,12 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
     }
   }
 
-  void filterOperationSearch(String query) {
+  Future<void> filterOperationSearch(String query) async {
     try {
       emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
+
+      await getOperation();
+      final operationList = state.operationList ?? [];
 
       List<OperationEntity> searchList = [];
 
@@ -240,12 +280,6 @@ class OperationFilterCubit extends HydratedCubit<OperationFilterState> {
       error,
     )));
     super.addError(error, stackTrace);
-  }
-
-  @override
-  Future<void> close() {
-    operationSubscription.cancel();
-    return super.close();
   }
 
   @override

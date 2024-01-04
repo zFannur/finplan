@@ -6,7 +6,7 @@ import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:finplan/feature/experience/ui/bloc/habit_cubit/habit_cubit.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
-import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
+import 'package:finplan/feature/operation/ui/bloc/operation_filter_cubit/operation_filter_cubit.dart';
 import 'package:finplan/feature/settings/ui/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -141,7 +141,7 @@ class _PreloadDataScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.read<SettingsCubit>().saveData(data);
-          context.read<OperationCubit>().getOperation();
+          context.read<OperationFilterCubit>().filterOperationByDay();
           context.pushRoute(const FinanceRoute());
         },
         child: const Icon(

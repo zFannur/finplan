@@ -4,13 +4,13 @@ import 'package:finplan/app/ui/components/app_bar.dart';
 import 'package:finplan/app/ui/theme/app_colors.dart';
 import 'package:finplan/app/ui/theme/app_text_style.dart';
 import 'package:finplan/feature/operation/domain/entities/operation_entity/operation_entity.dart';
-import 'package:finplan/feature/operation/ui/bloc/operation_cubit/operation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/const/app_local_data_keys.dart';
 import '../../../app/data/data_source/app_categories_local_data_source.dart';
 import '../data/data_source/opeartion_local_data_source.dart';
+import 'bloc/operation_filter_cubit/operation_filter_cubit.dart';
 import 'components/custom_text_form_field.dart';
 
 enum OperationType {
@@ -25,6 +25,7 @@ class OperationDetailScreen extends StatefulWidget {
   final String title;
   final IconData buttonIcon;
   final Function(OperationEntity operationEntity) onTap;
+  final Function(OperationEntity operationEntity)? onDelete;
   final OperationEntity? operation;
 
   const OperationDetailScreen({
@@ -32,7 +33,7 @@ class OperationDetailScreen extends StatefulWidget {
     required this.buttonIcon,
     required this.onTap,
     required this.title,
-    this.operation,
+    this.operation, required this.onDelete,
   });
 
   @override
@@ -181,8 +182,11 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
               heroTag: '1',
               onPressed: () {
                 context
-                    .read<OperationCubit>()
+                    .read<OperationFilterCubit>()
                     .deleteOperation(widget.operation!);
+                context
+                    .read<OperationFilterCubit>()
+                    .getOperation();
                 context.popRoute();
               },
               child: const Icon(
@@ -194,11 +198,11 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
           const SizedBox(width: 16),
           FloatingActionButton(
             heroTag: '2',
-            onPressed: () {
+            onPressed: () async {
               if (formKey.currentState?.validate() == true) {
                 widget.onTap(OperationEntity(
                   id: widget.operation?.id ??
-                      locator.get<OperationLocalDataSource>().getNewId(),
+                      await locator.get<OperationLocalDataSource>().getNewId(),
                   date: controllerDate.text,
                   type: type,
                   category: controllerCategory.text,
